@@ -15,6 +15,12 @@ exports.register = function(req, res){
     });
 };
 
+exports.user_index = function(req, res){
+    res.render("user_index",{
+       user: req.session.user
+    });
+};
+
 exports.process_register_info = function (req, res) {
     var is_legal = judge_input(req,res);
     if(is_legal=='legal'){
