@@ -26,7 +26,13 @@ exports.create_login_session = function(req, res){
                 return res.redirect('/');
             }
             req.session.user = user;
-            res.redirect('/user_index');
+            if(user.login_type=='user'){
+                res.redirect('/user_index');
+            }
+            if(user.login_type=='admin'){
+                res.redirect('/admin_index');
+            }
+
         });
     }
 };
