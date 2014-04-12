@@ -4,7 +4,6 @@
  */
 
 var express = require('express');
-//var routes = require('./routes');
 var index = require('./routes/index');
 var user = require('./routes/user');
 
@@ -21,7 +20,6 @@ app.set('port', process.env.PORT || 4000);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use(flash());
-
 app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.json());
@@ -36,7 +34,6 @@ app.use(express.session({
         db: settings.db
     })
 }));
-
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 

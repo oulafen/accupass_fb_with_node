@@ -3,7 +3,6 @@ var mongodb = require('./db');
 function User(user) {
     this.name = user.name;
     this.password = user.password;
-//    this.password_confirmation = user.password_confirmation;
     this.forgot_password_question = user.forgot_password_question;
     this.forgot_password_answer = user.forgot_password_answer;
 
@@ -11,22 +10,17 @@ function User(user) {
 
 module.exports = User;
 
-//存储用户信息
 User.prototype.save = function(callback) {
-    //要存入数据库的用户文档
     var user = {
         name: this.name,
         password: this.password,
-//        password_confirmation: this.password_confirmation,
         forgot_password_question: this.forgot_password_question,
         forgot_password_answer: this.forgot_password_answer
     };
-    //打开数据库
     mongodb.open(function (err, db) {
         if (err) {
             return callback(err);//错误，返回 err 信息
         }
-        //读取 users 集合
         db.collection('users', function (err, collection) {
             if (err) {
                 mongodb.close();
@@ -47,7 +41,6 @@ User.prototype.save = function(callback) {
     });
 };
 
-//读取用户信息
 User.get = function(name, callback) {
     //打开数据库
     mongodb.open(function (err, db) {
