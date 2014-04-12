@@ -4,10 +4,13 @@
  */
 
 var express = require('express');
-var routes = require('./routes');
+//var routes = require('./routes');
+var index = require('./routes/index');
 var user = require('./routes/user');
+
 var http = require('http');
 var path = require('path');
+var MongoStore = require('connect-mongo')(express);
 var settings = require('./settings');
 var flash = require('connect-flash');
 
@@ -24,6 +27,16 @@ app.use(express.logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.methodOverride());
+app.use(express.cookieParser());
+app.use(express.session({
+    secret: settings.cookieSecret,
+    key: settings.db,//cookie name
+    cookie: {maxAge: 1000 * 60 * 60 * 24 * 30},//30 days
+    store: new MongoStore({
+        db: settings.db
+    })
+}));
+
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -32,9 +45,9 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
-app.get('/', routes.index);
+app.get('/', index.index);
 app.get('/user_register', user.register);
-app.post('/user_register', user.register);
+app.post('/user_register',user.process_register_info);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

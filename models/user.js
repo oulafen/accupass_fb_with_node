@@ -3,7 +3,7 @@ var mongodb = require('./db');
 function User(user) {
     this.name = user.name;
     this.password = user.password;
-    this.password_confirmation = user.password_confirmation;
+//    this.password_confirmation = user.password_confirmation;
     this.forgot_password_question = user.forgot_password_question;
     this.forgot_password_answer = user.forgot_password_answer;
 
@@ -17,7 +17,7 @@ User.prototype.save = function(callback) {
     var user = {
         name: this.name,
         password: this.password,
-        password_confirmation: this.password_confirmation,
+//        password_confirmation: this.password_confirmation,
         forgot_password_question: this.forgot_password_question,
         forgot_password_answer: this.forgot_password_answer
     };
