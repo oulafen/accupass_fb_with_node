@@ -4,7 +4,9 @@
  */
 
 exports.index = function(req, res){
-  res.render('index');
+  res.render('index',{
+      error: req.flash('error').toString()
+  });
 };
 
 exports.logout = function(req, res){

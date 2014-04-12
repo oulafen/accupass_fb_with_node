@@ -47,6 +47,8 @@ app.get('/logout',index.logout);
 
 app.get('/user_register', user.register);
 app.get('/user_index',user.user_index);
+app.post('/create_login_session',user.create_login_session);
+
 
 
 app.post('/user_register',user.process_register_info);
