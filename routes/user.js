@@ -1,10 +1,6 @@
 
 var User = require('../models/user');
 
-//exports.list = function(req, res){
-//  res.send("respond with a resource");
-//};
-
 exports.register = function(req, res){
     res.render("user_register",{
         error: req.flash('error').toString()

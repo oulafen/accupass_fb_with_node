@@ -6,6 +6,8 @@
 var express = require('express');
 var index = require('./routes/index');
 var user = require('./routes/user');
+var admin = require('./routes/admin');
+
 
 var http = require('http');
 var path = require('path');
@@ -42,8 +44,9 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
-app.get('/', index.index);
+app.get('/', index.login);
 app.get('/logout',index.logout);
+app.get('/admin_index',admin.admin_index);
 
 app.get('/user_register', user.register);
 app.get('/user_index',user.user_index);

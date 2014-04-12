@@ -5,7 +5,7 @@ function User(user) {
     this.password = user.password;
     this.forgot_password_question = user.forgot_password_question;
     this.forgot_password_answer = user.forgot_password_answer;
-
+    this.login_type = 'user';
 };
 
 module.exports = User;
@@ -15,8 +15,10 @@ User.prototype.save = function(callback) {
         name: this.name,
         password: this.password,
         forgot_password_question: this.forgot_password_question,
-        forgot_password_answer: this.forgot_password_answer
+        forgot_password_answer: this.forgot_password_answer,
+        login_type: this.login_type
     };
+
     mongodb.open(function (err, db) {
         if (err) {
             return callback(err);//错误，返回 err 信息
@@ -32,7 +34,7 @@ User.prototype.save = function(callback) {
                 }, function (err, user) {
                     mongodb.close();
                     if (err) {
-                        return callback(err);//错误，返回 err 信息
+                        return callback(err);
                     }
                     callback(null, user[0]);//成功！err 为 null，并返回存储后的用户文档
                 }
@@ -42,8 +44,7 @@ User.prototype.save = function(callback) {
 };
 
 User.get = function(name, callback) {
-    //打开数据库
-    mongodb.open(function (err, db) {
+     mongodb.open(function (err, db) {
         if (err) {
             return callback(err);//错误，返回 err 信息
         }

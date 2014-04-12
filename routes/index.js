@@ -1,9 +1,5 @@
 
-/*
- * GET home page.
- */
-
-exports.index = function(req, res){
+exports.login = function(req, res){
   res.render('index',{
       error: req.flash('error').toString()
   });
