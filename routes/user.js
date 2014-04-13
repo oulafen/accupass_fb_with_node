@@ -12,6 +12,10 @@ exports.user_index = function (req, res) {
     });
 };
 
+exports.forgot_1 = function(req,res){
+    res.render("forgot_1");
+}
+
 exports.create_login_session = function (req, res) {
     var is_legal = User.judge_login_input(req, res);
     if (is_legal == 'legal') {
