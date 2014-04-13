@@ -1,0 +1,47 @@
+<%- include header%>
+
+<div class="row row-style">
+    <div class="col-md-8 position-2">
+        <a href="/admin_index">首页</a>
+        <span>
+          &nbsp;/&nbsp;添加用户
+        </span>
+    </div>
+</div>
+<div class="modal fade in modal-style">
+    <div class="index-login position-3">
+        <br>
+        <br>
+        <form accept-charset="UTF-8" action="add_user" method="post">
+
+            <div class="input-prepend">
+                <label class="add-on-1" for="user_帐号">帐号</label>
+                <input class="wid-350"  name="name" type="text">
+            </div>
+            <div class="input-prepend">
+                <label class="add-on-1" for="user_密码">密码</label>
+                <input class="wid-350"  name="password" type="password">
+            </div>
+            <div class="input-prepend">
+                <label class="add-on-1" for="user_请确认密码">请确认密码</label>
+                <input class="wid-350"   name="password_confirmation" type="password">
+            </div>
+            <div class="input-prepend">
+                <label class="add-on-1" for="user_忘记密码问题">忘记密码问题</label>
+                <input class="wid-350"  name="forgot_pw_question" type="text">
+            </div>
+            <div class="input-prepend">
+                <label class="add-on-1" for="user_忘记密码答案">忘记密码答案</label>
+                <input class="wid-350"  name="forgot_pw_answer" type="text">
+            </div>
+            <div class="btn-danger active">
+            </div>
+            <div>
+                <input class="btn" name="commit" style="width:150px" type="submit" value="确认添加">
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<%- include footer%>

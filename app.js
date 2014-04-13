@@ -50,12 +50,18 @@ app.get('/logout',index.logout);
 
 //admin
 app.get('/admin_index',admin.admin_index);
+app.get('/add_user',admin.add_user);
+
 app.get('/change_password',admin.change_password);
+
+//app.get('/create_admin_session',admin.create_admin_session);
+
 
 
 //user
 app.get('/user_register', user.register);
 app.get('/user_index',user.user_index);
+
 app.post('/create_login_session',user.create_login_session);
 
 
