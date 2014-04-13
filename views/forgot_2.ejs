@@ -1,0 +1,28 @@
+<%- include header.ejs%>
+<div class="modal fade in modal-style">
+    <div class="nav-header">
+        <h4>重置密码</h4>
+    </div>
+    <div class="index-login position-3">
+        <div class="nav-header text-right">
+            <a href="/">用户登录</a>
+        </div>
+        <form accept-charset="UTF-8" action="judge_q_and_a" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="✓"><input name="authenticity_token" type="hidden" value="yx9UJF+O8WRSBpgfnDvTKu4q4Uv/nrJFEA58J8/KtOI="></div>    <div class="input-prepend">
+                <label class="add-on-1" for="user_忘记密码问题">忘记密码问题</label>
+                <input class="add-on-2" disabled="disabled" id="user_forgot_pw_question" name="user[forgot_pw_question]" placeholder="#{f.forgot_pw_question}" type="text" value="q">
+            </div>
+            <div class="input-prepend">
+                <label class="add-on-1" for="user_忘记密码答案">忘记密码答案</label>
+                <input class="wid-350" id="user_forgot_pw_answer" name="user[forgot_pw_answer]" placeholder="请输入答案" type="text" value="q">
+            </div>
+            <div class="btn-danger active">
+
+            </div>
+            <div>
+                <input class="btn" name="commit" style="width:150px" type="submit" value="下一步">
+            </div>
+        </form>
+    </div>
+</div>
+
+<%- include footer.ejs%>

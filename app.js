@@ -62,7 +62,7 @@ app.get('/change_password',admin.change_password);
 app.get('/user_register', user.register);
 app.get('/user_index',user.user_index);
 app.get('/forgot_1',user.forgot_1);
-//app.post('/create_login_session',user.create_login_session);
+app.post('/create_login_session',user.create_login_session);
 
 
 
