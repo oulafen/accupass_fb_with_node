@@ -6,3 +6,9 @@ exports.admin_index = function (req, res) {
     });
 };
 
+exports.change_password = function(req,res){
+    res.render("change_password",{
+        name: req.body.name
+    })
+};
+

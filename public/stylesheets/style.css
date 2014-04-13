@@ -1,17 +1,4 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-}
 
-a {
-  color: #00B7FF;
-}
-
-/*.header-left {*/
-    /*position: absolute;*/
-    /*left: 10px;*/
-    /*top: 10px;*/
-/*}*/
 .header-1{
     padding: 20px, 60px !important;
     position: relative;

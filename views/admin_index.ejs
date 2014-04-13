@@ -33,7 +33,7 @@
             <td>
                 <a data-confirm="您确定要删除&quot;w&quot;？" data-method="delete" href="/del_user?name=w"
                    rel="nofollow">删除</a>
-                <a href="/change_password?name=/{{user.name}}">修改密码</a>
+                <a href="/change_password?name=<%= user.name%>">修改密码</a>
             </td>
         </tr>
         <% }) %>

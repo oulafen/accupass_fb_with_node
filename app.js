@@ -44,10 +44,16 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
+//index
 app.get('/', index.login);
 app.get('/logout',index.logout);
-app.get('/admin_index',admin.admin_index);
 
+//admin
+app.get('/admin_index',admin.admin_index);
+app.get('/change_password',admin.change_password);
+
+
+//user
 app.get('/user_register', user.register);
 app.get('/user_index',user.user_index);
 app.post('/create_login_session',user.create_login_session);
