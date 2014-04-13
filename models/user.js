@@ -10,7 +10,7 @@ function User(user) {
 
 module.exports = User;
 
-User.prototype.save = function(callback) {
+User.prototype.save = function (callback) {
     var user = {
         name: this.name,
         password: this.password,
@@ -21,49 +21,90 @@ User.prototype.save = function(callback) {
 
     mongodb.open(function (err, db) {
         if (err) {
-            return callback(err);//错误，返回 err 信息
+            return callback(err);
         }
         db.collection('users', function (err, collection) {
             if (err) {
                 mongodb.close();
-                return callback(err);//错误，返回 err 信息
+                return callback(err);
             }
-            //将用户数据插入 users 集合
             collection.insert(user, {
-                safe: true
+                    safe: true
                 }, function (err, user) {
                     mongodb.close();
                     if (err) {
                         return callback(err);
                     }
-                    callback(null, user[0]);//成功！err 为 null，并返回存储后的用户文档
+                    callback(null, user[0]);
                 }
             );
         });
     });
 };
 
-User.get = function(name, callback) {
-     mongodb.open(function (err, db) {
+User.get = function (name, callback) {
+    mongodb.open(function (err, db) {
         if (err) {
-            return callback(err);//错误，返回 err 信息
+            return callback(err);
         }
-        //读取 users 集合
         db.collection('users', function (err, collection) {
             if (err) {
                 mongodb.close();
-                return callback(err);//错误，返回 err 信息
+                return callback(err);
             }
-            //查找用户名（name键）值为 name 一个文档
             collection.findOne({
                 name: name
             }, function (err, user) {
                 mongodb.close();
                 if (err) {
-                    return callback(err);//失败！返回 err 信息
+                    return callback(err);
                 }
-                callback(null, user);//成功！返回查询的用户信息
+                callback(null, user);
             });
         });
     });
 };
+
+User.find_all_users = function (login_type, callback) {
+    mongodb.open(function (err, db) {
+        db.collection('users', function (err, collection) {
+            collection.find({login_type: login_type}).toArray(function (err, users) {
+                if (err) {
+                    callback(err);
+                }
+                else {
+                    callback(null, users);
+                    mongodb.close();
+                }
+            });
+        });
+    });
+};
+
+User.judge_register_input = function (req, res) {
+    var name = req.body.name,
+        password = req.body.password,
+        password_confirmation = req.body.password_confirmation,
+        forgot_password_question = req.body.forgot_password_question,
+        forgot_password_answer = req.body.forgot_password_answer;
+    if (!name || !password || !password_confirmation || !forgot_password_answer || !forgot_password_question) {
+        req.flash('error', '输入不能为空!');
+        return res.redirect('user_register');
+    }
+    if (password_confirmation != password) {
+        req.flash('error', '两次输入的密码不一致!');
+        return res.redirect("user_register");
+    }
+    return 'legal';
+};
+
+User.judge_login_input = function (req, res) {
+    var name = req.body.name,
+        password = req.body.password;
+    if (!name || !password) {
+        req.flash('error', '输入不能为空!');
+        return res.redirect('/');
+    }
+    return 'legal';
+};
+

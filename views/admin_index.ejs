@@ -1,12 +1,55 @@
 <%- include header %>
 
-    <div class="header-right">
-        <br>
-        <span>你好,管理员&nbsp;&nbsp;</span>
+<div class="header-right">
+    <br>
+    <span>你好,管理员&nbsp;&nbsp;</span>
           <span>
             <a href="/logout">退出</a>
           </span>
-    </div>
+</div>
 
+<div class="box-1">
+    <div class="modal-header" style="background:#F5F5F5">
+        <span class="h4-1">用户管理&nbsp;&nbsp;&nbsp;</span>
+        <a class="btn btn-2" href="/add_user"> + 添加用户</a>
+    </div>
+    <table class="table table-striped">
+        <thead>
+        <tr class="bold">
+            <td>编号</td>
+            <td>用户名</td>
+            <td>操作</td>
+        </tr>
+        </thead>
+        <tbody>
+        <% var num = 0; users.forEach(function(user){ num++; %>
+        <tr>
+            <td>
+                <%= num %>
+            </td>
+            <td>
+                <%= user['name'] %>
+            </td>
+            <td>
+                <a data-confirm="您确定要删除&quot;w&quot;？" data-method="delete" href="/del_user?name=w"
+                   rel="nofollow">删除</a>
+                <a href="/change_password?name=/{{user.name}}">修改密码</a>
+            </td>
+        </tr>
+        <% }) %>
+        </tbody>
+    </table>
+    <div class="modal-footer">
+        <div class="pagination">
+            <ul class="pagination">
+                <li class="prev previous_page disabled"><a href="#">&lt;&lt;</a></li>
+                <li class="active"><a rel="start" href="/manager_index?page=1">1</a></li>
+                <li><a rel="next" href="/manager_index?page=2">2</a></li>
+                <li><a href="/manager_index?page=3">3</a></li>
+                <li class="next next_page "><a rel="next" href="/manager_index?page=2">&gt;&gt;</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
 
 <%- include footer %>
