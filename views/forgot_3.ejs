@@ -1,0 +1,27 @@
+<%- include header.ejs%>
+<div class="modal fade in" style="background:#F5F5F5;margin-top:5%">
+    <div class="nav-header">
+        <h4>重置密码</h4>
+    </div>
+    <div class="index-login position-3">
+        <div class="nav-header text-right">
+            <a href="/">用户登录</a>
+        </div>
+        <form accept-charset="UTF-8" action="update_reset_password" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="✓"><input name="authenticity_token" type="hidden" value="yx9UJF+O8WRSBpgfnDvTKu4q4Uv/nrJFEA58J8/KtOI="></div>    <div class="input-prepend">
+                <label class="add-on-1" for="user_请设置密码">请设置密码</label>
+                <input class="add-on-2" name="password" placeholder="请输入新密码" type="password">
+            </div>
+            <div class="input-prepend">
+                <label class="add-on-1" for="user_请确认密码">请确认密码</label>
+                <input class="wid-350" name="password_confirmation" placeholder="请再次输入" type="password">
+            </div>
+            <div class="btn-danger active">
+
+            </div>
+            <div>
+                <input class="btn" name="commit" style="width:150px" type="submit" value="确认修改">
+            </div>
+        </form>
+    </div>
+</div>
+<%- include footer.ejs%>
