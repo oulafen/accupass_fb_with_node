@@ -46,9 +46,9 @@ User.update = function(user,callback){
     mongodb.open(function (err, db) {
         db.collection('users', function (err, collection) {
             collection.update({_id:user._id},{name:user.name,password:user.password,forgot_password_question:user.forgot_password_question,
-                forgot_password_answer:user.forgot_password_answer,login_type:user.login_type},function(err, users){
+                forgot_password_answer:user.forgot_password_answer,login_type:user.login_type},function(err, user){
                 mongodb.close();
-                callback(null, users);
+                callback(null, user);
             });
         })
     });

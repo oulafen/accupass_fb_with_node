@@ -26,7 +26,9 @@ exports.forgot_2 = function(req,res){
 };
 
 exports.forgot_3 = function(req,res){
-    res.render("forgot_3");
+    res.render("forgot_3",{
+        error: req.flash('error').toString()
+    });
 };
 
 exports.create_login_session = function (req, res) {
@@ -105,6 +107,28 @@ exports.judge_answer = function(req,res){
     res.redirect('/forgot_3');
 };
 
+exports.reset_password = function(req,res){
+    if(!req.body.password || !req.body.password_confirmation){
+        req.flash('error','输入不能为空！');
+        return res.redirect('/forgot_3');
+    }
+    if(req.body.password!=req.body.password_confirmation){
+        req.flash('error','两次密码输入不同');
+        return res.redirect('/forgot_3');
+    }
+    var user = req.session.user_of_forgot_password;
+    User.get(user.name,function(err,user){
+        if(user){
+            user.password = req.body.password;
+            User.update(user,function(err,us){
+                if(user){
+                    req.session.user = user;
+                    res.redirect('/user_index');
+                }
+            })
+        }
+    })
+};
 
 
 
