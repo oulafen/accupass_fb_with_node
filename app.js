@@ -65,6 +65,7 @@ app.get('/forgot_1',user.forgot_1);
 app.get('/forgot_2',user.forgot_2);
 app.get('/forgot_3',user.forgot_3);
 
+app.post('/forgot_pw_1',user.forgot_pw_1);
 app.post('/create_login_session',user.create_login_session);
 
 

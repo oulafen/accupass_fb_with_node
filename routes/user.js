@@ -13,11 +13,16 @@ exports.user_index = function (req, res) {
 };
 
 exports.forgot_1 = function(req,res){
-    res.render("forgot_1");
+    res.render("forgot_1",{
+        error: req.flash('error').toString()
+    });
 };
 
 exports.forgot_2 = function(req,res){
-    res.render("forgot_2");
+    res.render("forgot_2",{
+        error: req.flash('error').toString(),
+        forgot_password_user_name: req.session.forgot_password_user_name
+    });
 };
 
 exports.forgot_3 = function(req,res){
@@ -71,6 +76,22 @@ exports.process_register_info = function (req, res) {
             });
         });
     }
+};
+
+exports.forgot_pw_1 = function(req,res){
+    if(!req.body.name){
+        req.flash('error',"账户不能为空！");
+        return res.redirect('/forgot_1');
+    }
+    User.get(req.body.name,function(err,user){
+        if(!user){
+            req.flash('error', '该用户不存在!');
+            return res.redirect('/forgot_1');
+        }
+        console.log('------->',user)
+        req.session.forgot_password_user_name = req.body.name;
+        res.redirect('/forgot_2');
+    })
 };
 
 

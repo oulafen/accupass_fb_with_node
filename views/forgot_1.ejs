@@ -10,10 +10,10 @@
         <form accept-charset="UTF-8" action="forgot_pw_1" method="post">
             <div class="input-prepend">
                 <label class="add-on-1" for="user_账号">账号</label>
-                <input class="add-on-2" name="user[name]" placeholder="请输入账号名" type="text">
+                <input class="add-on-2" name="name" placeholder="请输入账号名" type="text">
             </div>
             <div class="btn-danger active">
-
+                <%= error%>
             </div>
             <div>
                 <input class="btn" name="commit" style="width:150px" type="submit" value="下一步">
