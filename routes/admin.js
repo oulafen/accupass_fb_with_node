@@ -22,18 +22,20 @@ exports.add_user = function(req,res){
 };
 
 exports.update_password = function(req,res){
-    var name = req.body.name;
+    var name = req.session.user_name;
     var is_input = User.judge_change_password_input(req,res);
     if(is_input == 'legal'){
-        User.get(name,function(user){
+        User.get(name,function(err,user){
             if(user){
-                user.save();
-                res.redirect('/')
+                user.password = req.body.password;
+                User.update(user,function(err,user){
+                    if(user){
+                        res.redirect('/admin_index');
+                    }
+                });
             }
-
         })
     }
-
 };
 
 exports.create_admin_session = function(req,res){

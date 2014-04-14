@@ -42,54 +42,27 @@ User.prototype.save = function (callback) {
     });
 };
 
-//User.prototype.update_password = function(password,callback){
-//
-//    var user = {
-//        name: this.name,
-//        password: password,
-//        forgot_password_question: this.forgot_password_question,
-//        forgot_password_answer: this.forgot_password_answer,
-//        login_type: this.login_type
-//    };
-//    mongodb.open(function (err, db) {
-//        db.users.update({'name':},);
-//        db.collection('users', function (err, collection) {
-//            if (err) {
-//                mongodb.close();
-//                return callback(err);
-//            }
-//            collection.insert(user, {
-//                    safe: true
-//                }, function (err, user) {
-//                    mongodb.close();
-//                    if (err) {
-//                        return callback(err);
-//                    }
-//                    callback(null, user[0]);
-//                }
-//            );
-//        })
-//    });
-
-//};
+User.update = function(user,callback){
+    mongodb.open(function (err, db) {
+        db.collection('users', function (err, collection) {
+            collection.update({_id:user._id},{name:user.name,password:user.password,forgot_password_question:user.forgot_password_question,
+                forgot_password_answer:user.forgot_password_answer,login_type:user.login_type},function(err, users){
+                mongodb.close();
+                callback(null, users);
+            });
+        })
+    });
+};
 
 User.get = function (name, callback) {
     mongodb.open(function (err, db) {
-        if (err) {
-            return callback(err);
-        }
         db.collection('users', function (err, collection) {
             if (err) {
                 mongodb.close();
                 return callback(err);
             }
-            collection.findOne({
-                name: name
-            }, function (err, user) {
+            collection.findOne({name: name}, function (err, user) {
                 mongodb.close();
-                if (err) {
-                    return callback(err);
-                }
                 callback(null, user);
             });
         });
