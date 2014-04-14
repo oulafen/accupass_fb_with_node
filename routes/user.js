@@ -21,7 +21,7 @@ exports.forgot_1 = function(req,res){
 exports.forgot_2 = function(req,res){
     res.render("forgot_2",{
         error: req.flash('error').toString(),
-        forgot_password_user_name: req.session.forgot_password_user_name
+        forgot_password_question: req.session.user_of_forgot_password.forgot_password_question
     });
 };
 
@@ -88,10 +88,21 @@ exports.forgot_pw_1 = function(req,res){
             req.flash('error', '该用户不存在!');
             return res.redirect('/forgot_1');
         }
-        console.log('------->',user)
-        req.session.forgot_password_user_name = req.body.name;
+        req.session.user_of_forgot_password = user;
         res.redirect('/forgot_2');
     })
+};
+
+exports.judge_answer = function(req,res){
+    if(!req.body.forgot_password_answer){
+        req.flash('error','输入不能为空！');
+        return res.redirect('/forgot_2');
+    }
+    if(req.session.user_of_forgot_password.name!=req.body.forgot_password_answer){
+        req.flash('error','忘记密码答案错误');
+        return res.redirect('/forgot_2');
+    }
+    res.redirect('/forgot_3');
 };
 
 
