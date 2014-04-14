@@ -42,11 +42,11 @@ User.prototype.save = function (callback) {
     });
 };
 
-User.update = function(user,callback){
+User.update = function (user, callback) {
     mongodb.open(function (err, db) {
         db.collection('users', function (err, collection) {
-            collection.update({_id:user._id},{name:user.name,password:user.password,forgot_password_question:user.forgot_password_question,
-                forgot_password_answer:user.forgot_password_answer,login_type:user.login_type},function(err, user){
+            collection.update({_id: user._id}, {name: user.name, password: user.password, forgot_password_question: user.forgot_password_question,
+                forgot_password_answer: user.forgot_password_answer, login_type: user.login_type}, function (err, user) {
                 mongodb.close();
                 callback(null, user);
             });
@@ -142,4 +142,16 @@ User.judge_add_user_input = function (req, res) {
     }
     return 'legal';
 };
+
+User.delete = function (user,callback) {
+    mongodb.open(function (err, db) {
+        db.collection('users', function (err, collection) {
+            collection.remove({_id: user._id}, function (err, user) {
+                mongodb.close();
+                callback(null, user);
+            });
+        })
+    });
+}
+
 

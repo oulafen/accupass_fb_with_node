@@ -53,6 +53,7 @@ app.get('/admin_index',admin.admin_index);
 app.get('/add_user',admin.add_user);
 app.get('/change_password',admin.change_password);
 app.get('/create_admin_session',admin.create_admin_session);
+app.get('/delete_user',admin.delete_user);
 
 app.post('/update_password',admin.update_password);
 app.post('/add_user',admin.create_new_user);

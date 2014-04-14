@@ -31,8 +31,7 @@
                 <%= user['name'] %>
             </td>
             <td>
-                <a data-confirm="您确定要删除&quot;w&quot;？" data-method="delete" href="/del_user?name=w"
-                   rel="nofollow">删除</a>
+                <a href="/delete_user?name=<%= user.name%>" >删除</a>
                 <a href="/create_admin_session?name=<%= user.name %>" >修改密码</a>
             </td>
         </tr>

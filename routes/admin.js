@@ -42,7 +42,7 @@ exports.update_password = function(req,res){
 };
 
 exports.create_admin_session = function(req,res){
-    req.session.user_name=querystring.parse(url.parse(req.url).query).name;
+    req.session.user_name = querystring.parse(url.parse(req.url).query).name;
     res.redirect('/change_password');
 };
 
@@ -66,6 +66,24 @@ exports.create_new_user = function(req,res){
             });
         });
     }
+};
+
+exports.delete_user = function(req,res){
+    var user_name = querystring.parse(url.parse(req.url).query).name;
+        User.get(user_name,function(err,user){
+            if(user){
+                User.delete(user,function(err,user){
+                    if(user){
+                        User.find_all_users("user",function(err,users){
+                            if(users){
+                                req.session.users = users;
+                                res.redirect('/admin_index');
+                            }
+                        })
+                    }
+                })
+            }
+        });
 };
 
 //function change_success_show(){
