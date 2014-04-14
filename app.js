@@ -55,6 +55,7 @@ app.get('/change_password',admin.change_password);
 app.get('/create_admin_session',admin.create_admin_session);
 
 app.post('/update_password',admin.update_password);
+app.post('/add_user',admin.create_new_user);
 
 
 //user

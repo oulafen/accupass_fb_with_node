@@ -126,3 +126,20 @@ User.judge_change_password_input = function (req, res) {
     return 'legal';
 };
 
+User.judge_add_user_input = function (req, res) {
+    var name = req.body.name,
+        password = req.body.password,
+        password_confirmation = req.body.password_confirmation,
+        forgot_password_question = req.body.forgot_password_question,
+        forgot_password_answer = req.body.forgot_password_answer;
+    if (!name || !password || !password_confirmation || !forgot_password_answer || !forgot_password_question) {
+        req.flash('error', '输入不能为空!');
+        return res.redirect('/add_user');
+    }
+    if (password_confirmation != password) {
+        req.flash('error', '两次输入的密码不一致!');
+        return res.redirect("/add_user");
+    }
+    return 'legal';
+};
+

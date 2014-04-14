@@ -4,7 +4,6 @@ var querystring = require('querystring');
 var $ = require("jquery");
 
 exports.admin_index = function (req, res) {
-
     res.render("admin_index", {
         users: req.session.users
     });
@@ -19,7 +18,9 @@ exports.change_password = function(req,res){
 };
 
 exports.add_user = function(req,res){
-    res.render('add_user');
+    res.render('add_user',{
+        error: req.flash('error').toString()
+    });
 };
 
 exports.update_password = function(req,res){
@@ -43,6 +44,28 @@ exports.update_password = function(req,res){
 exports.create_admin_session = function(req,res){
     req.session.user_name=querystring.parse(url.parse(req.url).query).name;
     res.redirect('/change_password');
+};
+
+exports.create_new_user = function(req,res){
+    var is_legal = User.judge_add_user_input(req,res) == 'legal';
+    if(is_legal){
+        var newUser = new User(req.body);
+        User.get(newUser.name, function (err, user) {
+            if (user) {
+                req.flash('error', '用户已存在!');
+                return res.redirect('/add_user');
+            }
+            newUser.save(function (err, user) {
+               if(user){
+                   User.find_all_users('user', function (err, users) {
+                       if (users) {
+                           req.session.users = users;
+                           res.redirect('/add_user');                       }
+                   })
+               }
+            });
+        });
+    }
 };
 
 //function change_success_show(){
