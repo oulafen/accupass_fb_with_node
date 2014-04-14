@@ -11,6 +11,7 @@
     "mongodb": "*",
     "connect-mongodb": "*",
     "connect-flash": "*",
-    "connect-mongo": "*"
+    "connect-mongo": "*",
+    "jquery":"1.6.3"
   }
 }
