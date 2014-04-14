@@ -42,6 +42,37 @@ User.prototype.save = function (callback) {
     });
 };
 
+//User.prototype.update_password = function(password,callback){
+//
+//    var user = {
+//        name: this.name,
+//        password: password,
+//        forgot_password_question: this.forgot_password_question,
+//        forgot_password_answer: this.forgot_password_answer,
+//        login_type: this.login_type
+//    };
+//    mongodb.open(function (err, db) {
+//        db.users.update({'name':},);
+//        db.collection('users', function (err, collection) {
+//            if (err) {
+//                mongodb.close();
+//                return callback(err);
+//            }
+//            collection.insert(user, {
+//                    safe: true
+//                }, function (err, user) {
+//                    mongodb.close();
+//                    if (err) {
+//                        return callback(err);
+//                    }
+//                    callback(null, user[0]);
+//                }
+//            );
+//        })
+//    });
+
+//};
+
 User.get = function (name, callback) {
     mongodb.open(function (err, db) {
         if (err) {
@@ -104,6 +135,20 @@ User.judge_login_input = function (req, res) {
     if (!name || !password) {
         req.flash('error', '输入不能为空!');
         return res.redirect('/');
+    }
+    return 'legal';
+};
+
+User.judge_change_password_input = function (req, res) {
+    var password = req.body.password,
+        password_confirmation = req.body.password_confirmation;
+    if (!password || !password_confirmation) {
+        req.flash('error', '输入不能为空!');
+        return res.redirect('/change_password');
+    }
+    if (password != password_confirmation) {
+        req.flash('error', '两次输入的密码不一致!');
+        return res.redirect('/change_password');
     }
     return 'legal';
 };
