@@ -5,13 +5,15 @@ var querystring = require('querystring');
 
 exports.admin_index = function (req, res) {
     req.session.change_success = '';
+//    req.delete_user = '';
     res.render("admin_index", {
-        users: req.session.users
+        users: req.session.users,
+        delete_user: req.session.delete_user,
+        delete_user_name: req.session.delete_user_name
     });
 };
 
 exports.change_password = function(req,res){
-
     res.render("change_password",{
         change_success: req.session.change_success,
         error: req.flash('error').toString(),
@@ -48,6 +50,19 @@ exports.close_change_success_confirm = function(req,res){
     res.redirect('/change_password');
 };
 
+exports.show_delete_user_confirm = function(req,res){
+    req.session.delete_user = 'clicked';
+    req.session.delete_user_name = querystring.parse(url.parse(req.url).query).name;
+    res.redirect('/admin_index');
+};
+
+exports.close_delete_user_confirm = function(req,res){
+    req.session.delete_user = '';
+    req.session.delete_user_name = '';
+    res.redirect('/admin_index');
+};
+
+
 exports.create_admin_session = function(req,res){
     req.session.user_name = querystring.parse(url.parse(req.url).query).name;
     res.redirect('/change_password');
@@ -76,8 +91,8 @@ exports.create_new_user = function(req,res){
 };
 
 exports.delete_user = function(req,res){
-    var user_name = querystring.parse(url.parse(req.url).query).name;
-        User.get(user_name,function(err,user){
+    req.session.delete_user = '';
+    User.get(req.session.delete_user_name,function(err,user){
             if(user){
                 User.delete(user,function(err,user){
                     if(user){
@@ -91,6 +106,7 @@ exports.delete_user = function(req,res){
                 })
             }
         });
+    req.session.delete_user_name = '';
 };
 
 //function change_success_show(){

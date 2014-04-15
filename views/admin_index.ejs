@@ -31,8 +31,8 @@
                 <%= user['name'] %>
             </td>
             <td>
-                <a href="/delete_user?name=<%= user.name%>" >删除</a>
-                <a href="/create_admin_session?name=<%= user.name %>" >修改密码</a>
+                <a href="/show_delete_user_confirm?name=<%= user.name %>">删除</a>
+                <a href="/create_admin_session?name=<%= user.name %>">修改密码</a>
             </td>
         </tr>
         <% }) %>
@@ -50,5 +50,19 @@
         </div>
     </div>
 </div>
-
+<% if(delete_user == 'clicked'){ %>
+<div class="modal hide" id="change_success" style="display: block;">
+    <div class="modal-body">
+        <a class="close" href="/close_delete_user_confirm">×</a>
+        <div class="text-center">
+          <span style="font-size:20px">
+            确定删除用户&nbsp;<%= delete_user_name %>&nbsp;吗？
+          </span>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a class="btn btn-default" href="/delete_user">确定</a>
+    </div>
+</div>
+<% } %>
 <%- include footer.ejs %>

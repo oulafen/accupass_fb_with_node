@@ -55,6 +55,8 @@ app.get('/change_password',admin.change_password);
 app.get('/create_admin_session',admin.create_admin_session);
 app.get('/delete_user',admin.delete_user);
 app.get('/close_change_success_confirm',admin.close_change_success_confirm);
+app.get('/show_delete_user_confirm',admin.show_delete_user_confirm);
+app.get('/close_delete_user_confirm',admin.close_delete_user_confirm);
 
 app.post('/update_password',admin.update_password);
 app.post('/add_user',admin.create_new_user);
