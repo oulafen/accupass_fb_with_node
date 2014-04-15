@@ -12,7 +12,7 @@
     "connect-mongodb": "*",
     "connect-flash": "*",
     "connect-mongo": "*",
-//    "jquery":"*",
+    "jquery":"*",
     "pagination":"*"
   }
 }
