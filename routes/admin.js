@@ -1,9 +1,10 @@
 var User = require('../models/user');
 var url = require('url');
 var querystring = require('querystring');
-var $ = require("jquery");
+//var $ = require("jquery");
 
 exports.admin_index = function (req, res) {
+    req.session.change_success = '';
     res.render("admin_index", {
         users: req.session.users
     });
@@ -12,6 +13,7 @@ exports.admin_index = function (req, res) {
 exports.change_password = function(req,res){
 
     res.render("change_password",{
+        change_success: req.session.change_success,
         error: req.flash('error').toString(),
         name:  req.session.user_name
     })
@@ -32,13 +34,18 @@ exports.update_password = function(req,res){
                 user.password = req.body.password;
                 User.update(user,function(err,user){
                     if(user){
-//                        req.flash('change_success','success');
+                        req.session.change_success = 'success';
                         res.redirect('/change_password');
                     }
                 });
             }
         })
     }
+};
+
+exports.close_change_success_confirm = function(req,res){
+    req.session.change_success = '';
+    res.redirect('/change_password');
 };
 
 exports.create_admin_session = function(req,res){
