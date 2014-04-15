@@ -120,8 +120,8 @@ exports.reset_password = function(req,res){
     User.get(user.name,function(err,user){
         if(user){
             user.password = req.body.password;
-            User.update(user,function(err,user){
-                if(user){
+            User.update(user,function(err,u){
+                if(u){
                     req.session.user = user;
                     res.redirect('/user_index');
                 }
