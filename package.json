@@ -13,6 +13,7 @@
     "connect-flash": "*",
     "connect-mongo": "*",
     "jquery":"*",
-    "pagination":"*"
+    "pagination":"*",
+    "mongoose":"*"
   }
 }
