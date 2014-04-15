@@ -2,14 +2,18 @@ var User = require('../models/user');
 var url = require('url');
 var querystring = require('querystring');
 //var $ = require("jquery");
+var pagination = require('pagination');
+
 
 exports.admin_index = function (req, res) {
     req.session.change_success = '';
-//    req.delete_user = '';
+    var paginator = pagination.create('search',{prelink:'/admin_index', current: 1, rowsPerPage: 10,
+        totalResult: 10020});
     res.render("admin_index", {
         users: req.session.users,
         delete_user: req.session.delete_user,
-        delete_user_name: req.session.delete_user_name
+        delete_user_name: req.session.delete_user_name,
+        paginator: paginator.render()
     });
 };
 

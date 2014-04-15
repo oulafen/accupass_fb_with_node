@@ -39,15 +39,7 @@
         </tbody>
     </table>
     <div class="modal-footer">
-        <div class="pagination">
-            <ul class="pagination">
-                <li class="prev previous_page disabled"><a href="#">&lt;&lt;</a></li>
-                <li class="active"><a rel="start" href="/manager_index?page=1">1</a></li>
-                <li><a rel="next" href="/manager_index?page=2">2</a></li>
-                <li><a href="/manager_index?page=3">3</a></li>
-                <li class="next next_page "><a rel="next" href="/manager_index?page=2">&gt;&gt;</a></li>
-            </ul>
-        </div>
+        <%- paginator%>
     </div>
 </div>
 <% if(delete_user == 'clicked'){ %>
