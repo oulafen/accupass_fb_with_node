@@ -12,21 +12,21 @@ exports.user_index = function (req, res) {
     });
 };
 
-exports.forgot_1 = function(req,res){
-    res.render("forgot_1",{
+exports.forgot_1 = function (req, res) {
+    res.render("forgot_1", {
         error: req.flash('error').toString()
     });
 };
 
-exports.forgot_2 = function(req,res){
-    res.render("forgot_2",{
+exports.forgot_2 = function (req, res) {
+    res.render("forgot_2", {
         error: req.flash('error').toString(),
         forgot_password_question: req.session.user_of_forgot_password.forgot_password_question
     });
 };
 
-exports.forgot_3 = function(req,res){
-    res.render("forgot_3",{
+exports.forgot_3 = function (req, res) {
+    res.render("forgot_3", {
         error: req.flash('error').toString()
     });
 };
@@ -80,13 +80,13 @@ exports.process_register_info = function (req, res) {
     }
 };
 
-exports.forgot_pw_1 = function(req,res){
-    if(!req.body.name){
-        req.flash('error',"账户不能为空！");
+exports.forgot_pw_1 = function (req, res) {
+    if (!req.body.name) {
+        req.flash('error', "账户不能为空！");
         return res.redirect('/forgot_1');
     }
-    User.get(req.body.name,function(err,user){
-        if(!user){
+    User.get(req.body.name, function (err, user) {
+        if (!user) {
             req.flash('error', '该用户不存在!');
             return res.redirect('/forgot_1');
         }
@@ -95,39 +95,52 @@ exports.forgot_pw_1 = function(req,res){
     })
 };
 
-exports.judge_answer = function(req,res){
-    if(!req.body.forgot_password_answer){
-        req.flash('error','输入不能为空！');
+exports.judge_answer = function (req, res) {
+    if (!req.body.forgot_password_answer) {
+        req.flash('error', '输入不能为空！');
         return res.redirect('/forgot_2');
     }
-    if(req.session.user_of_forgot_password.name!=req.body.forgot_password_answer){
-        req.flash('error','忘记密码答案错误');
+    if (req.session.user_of_forgot_password.name != req.body.forgot_password_answer) {
+        req.flash('error', '忘记密码答案错误');
         return res.redirect('/forgot_2');
     }
     res.redirect('/forgot_3');
 };
 
-exports.reset_password = function(req,res){
-    if(!req.body.password || !req.body.password_confirmation){
-        req.flash('error','输入不能为空！');
+exports.reset_password = function (req, res) {
+    if (!req.body.password || !req.body.password_confirmation) {
+        req.flash('error', '输入不能为空！');
         return res.redirect('/forgot_3');
     }
-    if(req.body.password!=req.body.password_confirmation){
-        req.flash('error','两次密码输入不同');
+    if (req.body.password != req.body.password_confirmation) {
+        req.flash('error', '两次密码输入不同');
         return res.redirect('/forgot_3');
     }
     var user = req.session.user_of_forgot_password;
-    User.get(user.name,function(err,user){
-        if(user){
+    User.get(user.name, function (err, user) {
+        if (user) {
             user.password = req.body.password;
-            User.update(user,function(err,u){
-                if(u){
+            User.update(user, function (err, u) {
+                if (u) {
                     req.session.user = user;
                     res.redirect('/user_index');
                 }
             })
         }
     })
+};
+
+exports.process_phone_login = function (req, res) {
+    User.get(req.body.name, function (err, user) {
+        if (user && user.password == req.body.password) {
+            res.writeHead(202);
+            res.write('true');
+            res.end();
+        } else {
+            res.write('false');
+            res.end();
+        }
+    });
 };
 
 

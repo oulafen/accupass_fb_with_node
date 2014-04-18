@@ -75,10 +75,9 @@ app.post('/forgot_pw_1',user.forgot_pw_1);
 app.post('/judge_answer',user.judge_answer);
 app.post('/reset_password',user.reset_password);
 app.post('/create_login_session',user.create_login_session);
-
-
-
 app.post('/user_register',user.process_register_info);
+app.post('/process_phone_login',user.process_phone_login);
+
 
 
 http.createServer(app).listen(app.get('port'), function(){
