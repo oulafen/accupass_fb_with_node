@@ -30,14 +30,14 @@ Activity.prototype.save = function (callback) {
     });
 };
 
-Activity.get = function (name, callback) {
+Activity.get = function (user,name, callback) {
     mongodb.open(function (err, db) {
         db.collection('activities', function (err, collection) {
             if (err) {
                 mongodb.close();
                 return callback(err);
             }
-            collection.findOne({name: name}, function (err, activity) {
+            collection.findOne({user:user,name: name}, function (err, activity) {
                 mongodb.close();
                 callback(null, activity);
             });
