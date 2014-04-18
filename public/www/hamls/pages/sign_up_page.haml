@@ -1,0 +1,28 @@
+%header#sign_up
+  报名{{'(共'+peoples.length+'人)'}}
+  .header-left.button_position
+    %a.btn-style.btn-4(ng-tap="go_list()")返回
+  #sign_up_status.header-right.button_position(ng-switch='status')
+    %button.btn.btn-primary(ng-disabled='true' ng-switch-when='begin_disabled' ) 开始
+    %button.btn-style.btn-4(ng-tap="sign_up_unbegin()" ng-switch-when='unbegin') 开始
+    %button.btn-style.btn-4(ng-tap="sign_up_beginning()" ng-switch-when='beginning' ) 结束
+    %button.btn.btn-primary(ng-disabled='true' ng-tap="sign_up_end()" ng-switch-when='end') 结束
+.wrapper.overflow-hidden
+  %ul.list-style-2
+    %li.text-vertical-align(ng-repeat="people in peoples" )
+      .font-size-18px
+        %span.header-left
+          {{people.name}}
+        %span.header-right
+          {{people.phone.substring(0,3)+'****'+people.phone.substring(7)}}
+%footer
+  %ul.footer-nav.footer-nav-2tabs.height-50px
+    %li.active
+      %a.height-50px
+        %h4 报名
+    %li
+      %a.height-50px(ng-tap="go_bid_list()" )
+        %h4 竞价
+
+
+

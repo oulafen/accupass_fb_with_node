@@ -1,0 +1,17 @@
+%header#bid
+  {{click_bid_name+'('+bid_peoples.length+'人)'}}
+  .header-left.button_position
+    %a.btn-style.btn-4(ng-tap="go_bid_list()") 返回
+  .header-right.button_position(ng-switch='status')
+    %button.btn.btn-primary(ng-disabled='true' ng-switch-when='begin_disabled' ) 开始
+    %button.btn-style.btn-4( ng-tap="bid_apply_unbegin()" ng-switch-when='unbegin') 开始
+    %button.btn-style.btn-4(ng-tap="bid_apply_beginning()" ng-switch-when='beginning') 结束
+    %button.btn.btn-primary(ng-disabled='true' ng-switch-when='end') 结束
+.wrapper.overflow-hidden
+  %ul.list-style-2
+    %li.text-vertical-align(ng-repeat="bid_people in bid_peoples")
+      .font-size-18px
+        %span.header-left
+          {{$index+1+'. '+bid_people.name}}
+        %span.header-right
+          {{bid_people.phone}}

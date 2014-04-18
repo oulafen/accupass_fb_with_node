@@ -6,7 +6,7 @@ function User(user) {
     this.forgot_password_question = user.forgot_password_question;
     this.forgot_password_answer = user.forgot_password_answer;
     this.login_type = 'user';
-};
+}
 
 module.exports = User;
 
@@ -152,6 +152,6 @@ User.delete = function (user,callback) {
             });
         })
     });
-}
+};
 
 

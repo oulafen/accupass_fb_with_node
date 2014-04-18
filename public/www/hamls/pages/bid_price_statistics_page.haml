@@ -1,0 +1,14 @@
+%header
+  {{click_biding_name+'('+bid_peoples.length+'人)'}}
+  .header-left.button_position
+    %a.btn-style.btn-4(ng-tap="go_bid_list()" ) 返回
+  .header-right.button_position( ng-switch='status')
+    %a.btn-style.btn-4(ng-tap='go_bid_result()' ) 列表
+.wrapper.overflow-hidden
+  %ul.list-style-2
+    %li.text-vertical-align(ng-repeat="price in prices")
+      .font-size-18px
+        %span.header-left
+          {{'￥'+price.price}}
+        %span.header-right
+          {{price.number}}

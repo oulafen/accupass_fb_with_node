@@ -8,6 +8,8 @@ var index = require('./routes/index');
 var user = require('./routes/user');
 var admin = require('./routes/admin');
 
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/accupass_fb_with_node');
 
 var http = require('http');
 var path = require('path');

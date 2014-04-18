@@ -1,0 +1,18 @@
+%header
+  %h3活动通
+.wrapper.overflow-hidden
+  .modal.fade.in(style="background:#F5F5F5;margin-top:7%")
+    .index-login.padding
+      %br
+      .input-prepend
+        %input.wid-350(ng-model='name' placeholder="请输入用户名" )
+      .input-prepend
+        %input.wid-350(ng-model='password' type="password" placeholder="请输入密码" )
+
+      .btn-danger.active(ng-show='error_show')
+        %span用户名或者密码不正确，请重新输入!
+
+      %br
+      %button.btn.btn-primary(style="width:150px" ng-tap='login()')
+        登录
+    %br

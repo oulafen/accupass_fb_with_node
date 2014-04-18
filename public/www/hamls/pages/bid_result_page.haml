@@ -1,0 +1,46 @@
+%header
+  {{click_biding_name+'('+bid_peoples.length+'人)'}}
+  .header-left.button_position
+    %a.btn-style.btn-4(ng-tap="go_bid_list()") 返回
+  .header-right.button_position(ng-switch='status')
+    %a.btn-style.btn-4(ng-tap='go_bid_price_statistics()') 统计
+
+.wrapper.overflow-hidden
+  %ul.list-style-2
+    %li.text-vertical-align(ng-repeat="bid_people in bid_peoples")
+      .font-size-18px
+        %span.header-left
+          {{$index+1+'.'+bid_people.name+'   '+bid_people.phone.substring(0,3)+'********' }}
+        %span.header-right
+          {{'￥'+bid_people.price}}
+
+
+.modal.hide#bid_succeed
+  .modal-body
+    %button.close( type="button"  data-dismiss="modal") &times
+    .text-vertical-align.text-align-center
+      %span.font-size-30px
+        {{bid_winner.name}}&nbsp
+        {{'￥'+bid_winner.price}}&nbsp
+        {{bid_winner.phone.substring(0,3)+'****'+bid_winner.phone.substring(7)}}&nbsp&nbsp
+        {{'竞价成功！'}}
+
+.modal.hide#bid_fail
+  .modal-body
+    %button.close(type="button" data-dismiss="modal") &times
+    .text-vertical-align.text-align-center
+      %span.font-size-30px
+        竞价失败！
+
+%footer
+  %ul.list-style-2
+    .background-gray.text-vertical-align.text-align-center(ng-show='show_succeed' )
+      %span.font-size-20px
+        {{'竞价结果：'}}&nbsp
+        {{bid_winner.name}}&nbsp
+        {{'￥'+bid_winner.price}}&nbsp
+        {{bid_winner.phone.substring(0,3)+'****'+bid_winner.phone.substring(7)}}&nbsp&nbsp
+        {{'竞价成功！'}}
+    .background-orange.text-vertical-align.text-align-center(ng-show='show_fail')
+      %span.font-size-20px
+        {{'竞价失败！'}}

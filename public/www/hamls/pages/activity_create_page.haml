@@ -1,0 +1,22 @@
+%header
+  新建活动
+  .header-left.button_position(ng-show='show')
+    %a.btn-style.btn-4(ng-tap="go_activity_list_page()")
+      返回
+
+.wrapper#wrapper
+  %form.wrapper-inner
+    %fieldset.form-wrapper
+      %br
+      %input.input-full.height-10-percent(ng-model="input_name" placeholder="活动名称" type="text")
+      %br
+      .text-align-left(ng-show='name_repeat'  )
+        %p.color-red
+          您输入的活动名称已存在！
+      %br
+      %br
+      %a.btn.btn-primary.width-100-percent(ng-disabled="!input_name" ng-tap="set_active_name()")
+        %h4创建
+
+
+
