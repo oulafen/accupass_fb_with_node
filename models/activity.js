@@ -1,48 +1,26 @@
 var mongodb = require('./db');
 
-function Activity(activity) {
-    this.user = activity.user;
-    this.name = activity.name;
-    this.status = activity.status;
+function Activity(user,activities) {
+    this.user = user;
+    this.activities = activities;
 }
 
 module.exports = Activity;
 
-Activity.prototype.save = function (callback) {
-    var activity = {
-        user:this.user,
-        name:this.name,
-        status: this.status
-    };
+Activity.prototype.update = function(callback){
+    var activity = this;
     mongodb.open(function (err, db) {
         db.collection('activities', function (err, collection) {
-            collection.insert(activity, {
-                    safe: true
-                }, function (err, activity) {
-                    mongodb.close();
-                    if (err) {
-                        return callback(err);
-                    }
-                    callback(null, activity[0]);
-                }
-            );
-        });
-    });
-};
-
-Activity.get = function (user,name, callback) {
-    mongodb.open(function (err, db) {
-        db.collection('activities', function (err, collection) {
-            if (err) {
-                mongodb.close();
-                return callback(err);
-            }
-            collection.findOne({user:user,name: name}, function (err, activity) {
-                mongodb.close();
-                callback(null, activity);
+            collection.remove({user:activity.user},function(err,activity){
+                return callback(null,activity);
             });
+            collection.insert(activity,{
+                safe: true
+            },function(err,activity){
+                mongodb.close();
+                return callback(null,activity);
+            })
         });
     });
 };
-
 

@@ -1,4 +1,6 @@
 var User = require('../models/user');
+var Activity = require('../models/activity');
+
 
 exports.register = function (req, res) {
     res.render("user_register", {
@@ -133,7 +135,6 @@ exports.reset_password = function (req, res) {
 exports.process_phone_login = function (req, res) {
     User.get(req.body.name, function (err, user) {
         if (user && user.password == req.body.password) {
-            res.writeHead(202);
             res.write('true');
             res.end();
         } else {
@@ -143,5 +144,15 @@ exports.process_phone_login = function (req, res) {
     });
 };
 
-
+exports.process_phone_data = function(req,res){
+    var newActivity = new Activity(req.body.login_user,req.body.activities);
+    newActivity.update(
+        function(err,activity){
+            if(activity){
+                res.write('true');
+                res.end();
+            }
+        }
+    );
+};
 

@@ -77,7 +77,7 @@ app.post('/reset_password',user.reset_password);
 app.post('/create_login_session',user.create_login_session);
 app.post('/user_register',user.process_register_info);
 app.post('/process_phone_login',user.process_phone_login);
-
+app.post('/process_phone_data',user.process_phone_data);
 
 
 http.createServer(app).listen(app.get('port'), function(){
