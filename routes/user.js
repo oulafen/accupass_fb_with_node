@@ -1,5 +1,8 @@
 var User = require('../models/user');
 var Activity = require('../models/activity');
+var Bid = require('../models/bid');
+var BidPeople = require('../models/bid_people');
+var SignUp = require('../models/sign_up');
 
 
 exports.register = function (req, res) {
@@ -146,13 +149,16 @@ exports.process_phone_login = function (req, res) {
 
 exports.process_phone_data = function(req,res){
     var newActivity = new Activity(req.body.login_user,req.body.activities);
-    newActivity.update(
-        function(err,activity){
-            if(activity){
-                res.write('true');
-                res.end();
-            }
-        }
-    );
+    var newBid = new Bid(req.body.login_user,req.body.bids);
+
+    newActivity.update();
+    newBid.update();
+
+
+
+
+    res.write('true');
+    res.end();
+
 };
 

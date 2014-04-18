@@ -14,9 +14,7 @@ Activity.prototype.update = function(callback){
             collection.remove({user:activity.user},function(err,activity){
                 return callback(null,activity);
             });
-            collection.insert(activity,{
-                safe: true
-            },function(err,activity){
+            collection.insert(activity,{safe: true},function(err,activity){
                 mongodb.close();
                 return callback(null,activity);
             })
