@@ -9,12 +9,8 @@
 
 .wrapper.overflow-hidden
   %ul.list-style-2
-    %li.text-vertical-align(ng-repeat="activity in activities" style="background:{{activity.active_status}}"
-    ng-tap="go_apply(activity.active_name)" )
+    %li.text-vertical-align(ng-repeat="activity in activities" style="background:{{activity.status}}"
+    ng-tap="go_apply(activity.name)" )
       .float-left.font-size-18px
         %a
-          {{activity.active_name}}
-
-
-
-
+          {{activity.name}}
