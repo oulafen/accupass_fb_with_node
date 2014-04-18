@@ -10,24 +10,24 @@ function SignUpListController($scope, $navigate) {
         $scope.click_activity = Activity.get_click_activity();
         $scope.present_activity = Activity.get_present_activity();
         $scope.sign_up_status = SignUp.get_sign_up_status();
-        if ($scope.present_activity.active_status == 'yellow'
+        if ($scope.present_activity.status == 'yellow'
             && $scope.click_activity.name != $scope.present_activity.name) {
             $scope.status = 'begin_disabled';
             return;
         }
-        if ($scope.present_activity.active_status == 'yellow' && $scope.sign_up_status == 'end') {
+        if ($scope.present_activity.status == 'yellow' && $scope.sign_up_status == 'end') {
             $scope.status = 'end';
             return;
         }
         $scope.status = $scope.click_activity.name == $scope.present_activity.name ?
-             $scope.status_map[$scope.present_activity.active_status]
-            : $scope.status_map[$scope.click_activity.active_status];
+             $scope.status_map[$scope.present_activity.status]
+            : $scope.status_map[$scope.click_activity.status];
     }
 
     $scope.sign_up_unbegin = function () {
         $scope.status = 'beginning';
         $scope.present_activity = $scope.click_activity;
-        $scope.present_activity.active_status = 'yellow';
+        $scope.present_activity.status = 'yellow';
 
         Activity.save_present_activity_name($scope.present_activity.name)
         SignUp.update_sign_up_activities($scope.present_activity)

@@ -64,7 +64,7 @@ Bid.get_bid_people_by_phone = function (phone) {
 
 Bid.update_bids = function (present_bid) {
     var bids = Bid.get_bids();
-    _.each(bids, function (bid) {
+    _.map(bids, function (bid) {
         if (bid.bid_name == present_bid.bid_name
             && bid.activity_name == localStorage.present_activity_name
             && bid.user == localStorage.user) {

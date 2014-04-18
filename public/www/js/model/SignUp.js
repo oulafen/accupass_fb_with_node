@@ -11,9 +11,9 @@ SignUp.save_sign_up_status = function (status) {
 
 SignUp.update_sign_up_activities = function (present_activity) {
     var activities = JSON.parse(localStorage.getItem('activities'));
-    _.each(activities, function (activity) {
+    _.map(activities, function (activity) {
         if (activity.name == present_activity.name) {
-            activity.active_status = present_activity.active_status;
+            activity.status = present_activity.status;
         }
     });
     localStorage.setItem('activities', JSON.stringify(activities));

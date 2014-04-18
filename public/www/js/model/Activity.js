@@ -14,14 +14,9 @@ Activity.prototype.create = function () {
 
 Activity.get_activities = function () {
     var activities = JSON.parse(localStorage.getItem('activities'));
-    var present_activities = _.filter(activities, function (activity) {
+    return _.filter(activities, function (activity) {
         return activity.user == localStorage.getItem('user');
     });
-    var acts=[];
-    _.each(present_activities,function(activity){
-        acts.push(new Activity(activity.name,activity.status))
-    });
-    return acts;
 }
 
 Activity.get_present_activity_name = function () {
