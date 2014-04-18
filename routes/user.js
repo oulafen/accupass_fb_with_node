@@ -150,10 +150,11 @@ exports.process_phone_login = function (req, res) {
 exports.process_phone_data = function(req,res){
     var newActivity = new Activity(req.body.login_user,req.body.activities);
     var newBid = new Bid(req.body.login_user,req.body.bids);
+    var newBidPeople = new BidPeople(req.body.login_user,req.body.bid_people);
 
     newActivity.update();
     newBid.update();
-
+    newBidPeople.update();
 
 
 
