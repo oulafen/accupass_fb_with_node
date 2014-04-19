@@ -142,8 +142,20 @@ User.reconstruct_user_infos = function(req,res){
     var user = req.session.user;
     var user_info = {};
     var user_infos = [];
-    Activity.get(user,function(){
-
+    Activity.get(user.name,function(err,activity){
+        if(activity){
+            var activities = activity.activities;
+            for(var i= 0;i<activities.length;i++){
+                user_info.activity_name = activities[i].name;
+                SignUp.count_sign_ups_num(function(sign_ups_num){
+                    user_info.sign_ups_num = sign_ups_num;
+                    Bid.count_bids_num(function(bids_num){
+                        user_info.bids_num = bids_num;
+                        user_infos.push(user_info);
+                    });
+                });
+            }
+        }
     });
 };
 

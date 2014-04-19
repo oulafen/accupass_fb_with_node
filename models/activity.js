@@ -21,4 +21,10 @@ Activity.prototype.update = function(){
     activity.save(activity);
 };
 
+Activity.get = function(user,callback){
+    activityModel.findOne({user:user},function(err,activity){
+        callback(null,activity);
+    });
+};
+
 module.exports = Activity;
