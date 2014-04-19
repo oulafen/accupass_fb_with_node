@@ -57,7 +57,7 @@ User.get = function (name, callback) {
 User.find_all_users = function (login_type, callback) {
     userModel.find({login_type: login_type},function (err, users) {
         if (err) {
-            callback(err);
+            return callback(err);
         }
          callback(null, users);
     });
@@ -121,14 +121,12 @@ User.judge_add_user_input = function (req, res) {
     return 'legal';
 };
 
-User.delete = function (user,callback) {
-    mongodb.open(function (err, db) {
-        db.collection('users', function (err, collection) {
-            collection.remove({_id: user._id}, function (err, user) {
-                mongodb.close();
-                callback(null, user);
-            });
-        })
+User.delete_user = function (user,callback) {
+    userModel.remove({_id: user._id}, function (err, user) {
+        if(err){
+            return callback(err);
+        }
+        callback(null, user);
     });
 };
 

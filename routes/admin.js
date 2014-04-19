@@ -66,7 +66,6 @@ exports.close_delete_user_confirm = function(req,res){
     res.redirect('/admin_index');
 };
 
-
 exports.create_admin_session = function(req,res){
     req.session.user_name = querystring.parse(url.parse(req.url).query).name;
     res.redirect('/change_password');
@@ -98,7 +97,7 @@ exports.delete_user = function(req,res){
     req.session.delete_user = '';
     User.get(req.session.delete_user_name,function(err,user){
             if(user){
-                User.delete(user,function(err,user){
+                User.delete_user(user,function(err,user){
                     if(user){
                         User.find_all_users("user",function(err,users){
                             if(users){
