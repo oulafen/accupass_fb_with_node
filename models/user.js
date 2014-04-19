@@ -23,8 +23,7 @@ function User(user) {
 }
 
 User.prototype.save = function (callback) {
-    var user = this;
-    var newUser = new userModel(user);
+    var newUser = new userModel(this);
 
     newUser.save(function (err, user) {
         if (err) {
@@ -56,18 +55,11 @@ User.get = function (name, callback) {
 };
 
 User.find_all_users = function (login_type, callback) {
-    mongodb.open(function (err, db) {
-        db.collection('users', function (err, collection) {
-            collection.find({login_type: login_type}).toArray(function (err, users) {
-                if (err) {
-                    callback(err);
-                }
-                else {
-                    callback(null, users);
-                    mongodb.close();
-                }
-            });
-        });
+    userModel.find({login_type: login_type},function (err, users) {
+        if (err) {
+            callback(err);
+        }
+         callback(null, users);
     });
 };
 
