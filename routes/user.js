@@ -121,14 +121,7 @@ exports.judge_answer = function (req, res) {
 };
 
 exports.reset_password = function (req, res) {
-    if (!req.body.password || !req.body.password_confirmation) {
-        req.flash('error', '输入不能为空！');
-        return res.redirect('/forgot_3');
-    }
-    if (req.body.password != req.body.password_confirmation) {
-        req.flash('error', '两次密码输入不同');
-        return res.redirect('/forgot_3');
-    }
+    User.judge_reset_password_input(req,res);
     var user = req.session.user_of_forgot_password;
     var md5 = crypto.createHash('md5'),
         password = md5.update(req.body.password).digest('hex');

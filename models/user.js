@@ -118,6 +118,17 @@ User.judge_add_user_input = function (req, res) {
     return 'legal';
 };
 
+User.judge_reset_password_input = function(req,res){
+    if (!req.body.password || !req.body.password_confirmation) {
+        req.flash('error', '输入不能为空！');
+        return res.redirect('/forgot_3');
+    }
+    if (req.body.password != req.body.password_confirmation) {
+        req.flash('error', '两次密码输入不同');
+        return res.redirect('/forgot_3');
+    }
+};
+
 User.delete_user = function (user,callback) {
     userModel.remove({_id: user._id}, function (err, user) {
         if(err){
