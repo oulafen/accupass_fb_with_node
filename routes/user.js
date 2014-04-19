@@ -53,6 +53,18 @@ exports.sign_up_list = function(req,res){
     });
 };
 
+exports.bid_detail = function(req,res){
+    res.render("bid_detail",{
+        user: req.session.user
+    });
+};
+
+exports.price_statistics = function(req,res){
+    res.render("price_statistics",{
+        user: req.session.user
+    });
+}
+
 exports.create_login_session = function (req, res) {
     var is_legal = User.judge_login_input(req, res);
     var md5 = crypto.createHash('md5'),

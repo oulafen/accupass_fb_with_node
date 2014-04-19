@@ -69,6 +69,9 @@ app.get('/forgot_2',user.forgot_2);
 app.get('/forgot_3',user.forgot_3);
 app.get('/bid_list',user.bid_list);
 app.get('/sign_up_list',user.sign_up_list);
+app.get('/bid_detail',user.bid_detail);
+app.get('/price_statistics',user.price_statistics);
+
 
 app.post('/forgot_pw_1',user.forgot_pw_1);
 app.post('/judge_answer',user.judge_answer);

@@ -1,0 +1,67 @@
+<%- include user_header.ejs %>
+<div class="row row-style">
+    <div class="col-md-8 position-2">
+        <a href="/user_index">首页</a>
+        <span>
+          &nbsp;/&nbsp;
+          <a href="/bid_list?activity_name=nnnn">竞价列表</a>
+        </span>
+        <span>
+          &nbsp;/&nbsp;
+          竞价1
+        </span>
+    </div>
+</div>
+<div class="box-2">
+    <div class="modal-header" style="background:#F5F5F5">
+        <br>
+        <div class="h4-2">
+            <p>
+                获胜者：
+                ioio
+            </p>
+            <p>
+                出价：
+                89
+                元
+            </p>
+            <p>
+                手机号：
+                1817178312
+            </p>
+        </div>
+        <br>
+    </div>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <td class="bolder-3">
+                <a href="/bid_detail?present_bid_name=%E7%AB%9E%E4%BB%B72">出价列表</a>
+            </td>
+            <td class="bolder-4">
+                价格统计
+            </td>
+        </tr>
+        <tr class="bold">
+            <td>
+                价格/元
+            </td>
+            <td>
+                人数
+            </td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>
+                89
+            </td>
+            <td>
+                1
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="modal-footer"></div>
+</div>
+<%- include footer.ejs %>
