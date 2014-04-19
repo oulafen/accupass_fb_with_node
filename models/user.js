@@ -1,4 +1,4 @@
-//var mongodb = require('./db');
+var mongodb = require('./db');
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/accupass_fb_with_node');
 
@@ -47,17 +47,11 @@ User.update = function (user, callback) {
 };
 
 User.get = function (name, callback) {
-    mongodb.open(function (err, db) {
-        db.collection('users', function (err, collection) {
-            if (err) {
-                mongodb.close();
-                return callback(err);
-            }
-            collection.findOne({name: name}, function (err, user) {
-                mongodb.close();
-                callback(null, user);
-            });
-        });
+    userModel.findOne({name: name}, function (err, user) {
+        if (err) {
+            return callback(err);
+        }
+        callback(null, user);
     });
 };
 
