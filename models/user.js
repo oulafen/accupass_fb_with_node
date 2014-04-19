@@ -1,4 +1,18 @@
-var mongodb = require('./db');
+//var mongodb = require('./db');
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/accupass_fb_with_node');
+
+var userSchema = new mongoose.Schema({
+    name: String,
+    password: String,
+    forgot_password_question:String,
+    forgot_password_answer:String,
+    login_type:String
+}, {
+    collection: 'users'
+});
+
+var userModel = mongoose.model('User', userSchema);
 
 function User(user) {
     this.name = user.name;
@@ -8,37 +22,15 @@ function User(user) {
     this.login_type = 'user';
 }
 
-module.exports = User;
-
 User.prototype.save = function (callback) {
-    var user = {
-        name: this.name,
-        password: this.password,
-        forgot_password_question: this.forgot_password_question,
-        forgot_password_answer: this.forgot_password_answer,
-        login_type: this.login_type
-    };
+    var user = this;
+    var newUser = new userModel(user);
 
-    mongodb.open(function (err, db) {
+    newUser.save(function (err, user) {
         if (err) {
             return callback(err);
         }
-        db.collection('users', function (err, collection) {
-            if (err) {
-                mongodb.close();
-                return callback(err);
-            }
-            collection.insert(user, {
-                    safe: true
-                }, function (err, user) {
-                    mongodb.close();
-                    if (err) {
-                        return callback(err);
-                    }
-                    callback(null, user[0]);
-                }
-            );
-        });
+        callback(null, user);
     });
 };
 
@@ -153,6 +145,8 @@ User.delete = function (user,callback) {
         })
     });
 };
+
+module.exports = User;
 
 
 
