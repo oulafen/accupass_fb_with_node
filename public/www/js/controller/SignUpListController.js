@@ -29,8 +29,8 @@ function SignUpListController($scope, $navigate) {
         $scope.present_activity = $scope.click_activity;
         $scope.present_activity.status = 'yellow';
 
-        Activity.save_present_activity_name($scope.present_activity.name)
-        SignUp.update_sign_up_activities($scope.present_activity)
+        Activity.save_present_activity_name($scope.present_activity.name);
+        SignUp.update_sign_up_activities($scope.present_activity);
         SignUp.save_sign_up_status('beginning');
     }
 

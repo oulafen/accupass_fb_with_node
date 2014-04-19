@@ -37,7 +37,7 @@ function BidApplyController($scope, $navigate) {
             SignUp.save_sign_up_status($scope.sign_up_status);
 
             $scope.present_bid.bid_status = 'yellow';
-            $scope.present_activity.active_status = 'yellow';
+            $scope.present_activity.status = 'yellow';
 
             Bid.update_bids($scope.present_bid);
             SignUp.update_sign_up_activities($scope.present_activity);
@@ -54,7 +54,7 @@ function BidApplyController($scope, $navigate) {
             SignUp.save_sign_up_status($scope.sign_up_status);
 
             $scope.present_bid.bid_status = 'lightgray';
-            $scope.present_activity.active_status = 'lightgray';
+            $scope.present_activity.status = 'lightgray';
 
             Bid.update_bids($scope.present_bid);
             SignUp.update_sign_up_activities($scope.present_activity);
@@ -62,7 +62,7 @@ function BidApplyController($scope, $navigate) {
         }
     }
 
-    $scope.click_biding_name = Bid.get_click_bid_name();
+    $scope.click_bid_name = Bid.get_click_bid_name();
 
     $scope.bid_apply_begin_button_status_init();
 
