@@ -3,6 +3,7 @@ var url = require('url');
 var querystring = require('querystring');
 //var $ = require("jquery");
 var pagination = require('pagination');
+var crypto = require('crypto');
 
 
 exports.admin_index = function (req, res) {
@@ -34,10 +35,12 @@ exports.add_user = function(req,res){
 exports.update_password = function(req,res){
     var name = req.session.user_name;
     var is_input = User.judge_change_password_input(req,res);
+    var md5 = crypto.createHash('md5'),
+        password = md5.update(req.body.password).digest('hex');
     if(is_input == 'legal'){
         User.get(name,function(err,user){
             if(user){
-                user.password = req.body.password;
+                user.password = password;
                 User.update(user,function(err,user){
                     if(user){
                         req.session.change_success = 'success';
@@ -73,8 +76,12 @@ exports.create_admin_session = function(req,res){
 
 exports.create_new_user = function(req,res){
     var is_legal = User.judge_add_user_input(req,res) == 'legal';
+    var md5 = crypto.createHash('md5'),
+        password = md5.update(req.body.password).digest('hex');
+    var user = req.body;
+    user.password = password;
     if(is_legal){
-        var newUser = new User(req.body);
+        var newUser = new User(user);
         User.get(newUser.name, function (err, user) {
             if (user) {
                 req.flash('error', '用户已存在!');

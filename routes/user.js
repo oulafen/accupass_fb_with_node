@@ -3,6 +3,7 @@ var Activity = require('../models/activity');
 var Bid = require('../models/bid');
 var BidPeople = require('../models/bid_people');
 var SignUp = require('../models/sign_up');
+var crypto = require('crypto');
 
 
 exports.register = function (req, res) {
@@ -38,13 +39,15 @@ exports.forgot_3 = function (req, res) {
 
 exports.create_login_session = function (req, res) {
     var is_legal = User.judge_login_input(req, res);
+    var md5 = crypto.createHash('md5'),
+        password = md5.update(req.body.password).digest('hex');
     if (is_legal == 'legal') {
         User.get(req.body.name, function (err, user) {
             if (!user) {
                 req.flash('error', '该用户不存在!');
                 return res.redirect('/');
             }
-            if (user.password != req.body.password) {
+            if (user.password != password) {
                 req.flash('error', '输入密码不正确!');
                 return res.redirect('/');
             }
@@ -66,8 +69,13 @@ exports.create_login_session = function (req, res) {
 
 exports.process_register_info = function (req, res) {
     var is_legal = User.judge_register_input(req, res);
+    var md5 = crypto.createHash('md5'),
+        password = md5.update(req.body.password).digest('hex');
+    var user = req.body;
+    user.password = password;
+
     if (is_legal == 'legal') {
-        var newUser = new User(req.body);
+        var newUser = new User(user);
         User.get(newUser.name, function (err, user) {
             if (user) {
                 req.flash('error', '用户已存在!');
@@ -122,9 +130,11 @@ exports.reset_password = function (req, res) {
         return res.redirect('/forgot_3');
     }
     var user = req.session.user_of_forgot_password;
+    var md5 = crypto.createHash('md5'),
+        password = md5.update(req.body.password).digest('hex');
     User.get(user.name, function (err, user) {
         if (user) {
-            user.password = req.body.password;
+            user.password = password;
             User.update(user, function (err, u) {
                 if (u) {
                     req.session.user = user;
@@ -147,11 +157,11 @@ exports.process_phone_login = function (req, res) {
     });
 };
 
-exports.process_phone_data = function(req,res){
-    var newActivity = new Activity(req.body.login_user,req.body.activities);
-    var newBid = new Bid(req.body.login_user,req.body.bids);
-    var newBidPeople = new BidPeople(req.body.login_user,req.body.bid_people);
-    var newSignUp =new SignUp(req.body.login_user,req.body.sign_up);
+exports.process_phone_data = function (req, res) {
+    var newActivity = new Activity(req.body.login_user, req.body.activities);
+    var newBid = new Bid(req.body.login_user, req.body.bids);
+    var newBidPeople = new BidPeople(req.body.login_user, req.body.bid_people);
+    var newSignUp = new SignUp(req.body.login_user, req.body.sign_up);
     newActivity.update();
     newBid.update();
     newBidPeople.update();
