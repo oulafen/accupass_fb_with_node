@@ -1,24 +1,29 @@
-var mongodb = require('./db');
+//var mongodb = require('./db');
+var mongoose = require('mongoose');
+
+var signUpSchema = new mongoose.Schema({
+    user: String,
+    sign_ups: Array
+}, {
+    collection: 'sign_ups'
+});
+
+var signUpModel = mongoose.model('SignUp', signUpSchema);
 
 function SignUp(user,sign_ups) {
     this.user = user;
     this.sign_ups = sign_ups;
 }
 
-module.exports = SignUp;
-
 SignUp.prototype.update = function(callback){
-    var sign_up = this;
-    mongodb.open(function (err, db) {
-        db.collection('sign_ups', function (err, collection) {
-            collection.remove({user:sign_up.user},function(err,sign_up){
-                return callback(null,sign_up);
-            });
-            collection.insert(sign_up,{safe: true},function(err,sign_up){
-                mongodb.close();
-                return callback(null,sign_up);
-            })
-        });
+    var sign_up = new signUpModel(this);
+    signUpModel.remove({user:this.user},function(err,sign_up){
+        callback(null,sign_up);
+    });
+    sign_up.save(sign_up,function(err,sign_up){
+        callback(null,sign_up);
     });
 };
+
+module.exports = SignUp;
 
