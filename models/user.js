@@ -1,4 +1,4 @@
-var mongodb = require('./db');
+//var mongodb = require('./db');
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/accupass_fb_with_node');
 
@@ -34,14 +34,11 @@ User.prototype.save = function (callback) {
 };
 
 User.update = function (user, callback) {
-    mongodb.open(function (err, db) {
-        db.collection('users', function (err, collection) {
-            collection.update({_id: user._id}, {name: user.name, password: user.password, forgot_password_question: user.forgot_password_question,
-                forgot_password_answer: user.forgot_password_answer, login_type: user.login_type}, function (err, user) {
-                mongodb.close();
-                callback(null, user);
-            });
-        })
+    userModel.update({_id: user._id}, {$set: { password: user.password }}, function (err, user) {
+        if(err){
+            return callback(err);
+        }
+        callback(null, user);
     });
 };
 
