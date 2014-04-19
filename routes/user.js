@@ -139,8 +139,10 @@ exports.reset_password = function (req, res) {
 };
 
 exports.process_phone_login = function (req, res) {
+    var md5 = crypto.createHash('md5'),
+        password = md5.update(req.body.password).digest('hex');
     User.get(req.body.name, function (err, user) {
-        if (user && user.password == req.body.password) {
+        if (user && user.password == password) {
             res.write('true');
             res.end();
         } else {
@@ -155,10 +157,10 @@ exports.process_phone_data = function (req, res) {
     var newBid = new Bid(req.body.login_user, req.body.bids);
     var newBidPeople = new BidPeople(req.body.login_user, req.body.bid_people);
     var newSignUp = new SignUp(req.body.login_user, req.body.sign_up);
-    newActivity.update();
-    newBid.update();
-    newBidPeople.update();
-    newSignUp.update();
+    newActivity.update(function(err,activity){});
+    newBid.update(function(err,activity){});
+    newBidPeople.update(function(err,activity){});
+    newSignUp.update(function(err,activity){});
 
 
     res.write('true');

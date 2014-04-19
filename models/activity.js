@@ -1,24 +1,29 @@
-var mongodb = require('./db');
+//var mongodb = require('./db');
+var mongoose = require('mongoose');
+//mongoose.connect('mongodb://localhost/accupass_fb_with_node');
+
+var activitySchema = new mongoose.Schema({
+    user: String,
+    activities: Array
+}, {
+    collection: 'activities'
+});
+
+var activityModel = mongoose.model('Activity', activitySchema);
 
 function Activity(user,activities) {
     this.user = user;
     this.activities = activities;
 }
 
-module.exports = Activity;
-
 Activity.prototype.update = function(callback){
-    var activity = this;
-    mongodb.open(function (err, db) {
-        db.collection('activities', function (err, collection) {
-            collection.remove({user:activity.user},function(err,activity){
-                return callback(null,activity);
-            });
-            collection.insert(activity,{safe: true},function(err,activity){
-                mongodb.close();
-                return callback(null,activity);
-            })
-        });
+    var activity = new activityModel(this) ;
+    activityModel.remove({user:this.user},function(err,activity){
+        callback(null,activity);
+    });
+    activity.save(activity,function(err,activity){
+        callback(null,activity);
     });
 };
 
+module.exports = Activity;
