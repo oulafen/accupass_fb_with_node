@@ -15,9 +15,11 @@ function BidPeople(user,bid_people) {
     this.bid_people = bid_people ;
 }
 
-BidPeople.prototype.update = function(){
+BidPeople.prototype.update = function(callback){
     var bid_people = new bidPeopleModel(this);
-    bidPeopleModel.remove({user:this.user});
+    bidPeopleModel.remove({user:this.user},function(err,bid_people){
+        return callback(null,bid_people);
+    });
     bid_people.save(bid_people);
 };
 

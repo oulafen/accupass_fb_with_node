@@ -13,10 +13,13 @@ exports.register = function (req, res) {
 };
 
 exports.user_index = function (req, res) {
-    res.render("user_index", {
-        user: req.session.user,
-        user_infos: User.reconstruct_user_infos(req,res)
-    });
+    User.reconstruct_user_infos(req, res)
+        .then(function (user_infos) {
+            res.render("user_index", {
+                user: req.session.user,
+                user_infos: user_infos
+            });
+        })
 };
 
 exports.forgot_1 = function (req, res) {
@@ -158,10 +161,10 @@ exports.process_phone_data = function (req, res) {
     var newBid = new Bid(req.body.login_user, req.body.bids);
     var newBidPeople = new BidPeople(req.body.login_user, req.body.bid_people);
     var newSignUp = new SignUp(req.body.login_user, req.body.sign_ups);
-    newActivity.update();
-    newBid.update();
-    newBidPeople.update();
-    newSignUp.update();
+    newActivity.update(function(err,activity){});
+    newBid.update(function(err,bid){});
+    newBidPeople.update(function(err,bid_people){});
+    newSignUp.update(function(err,sign_up){});
 
     res.write('true');
     res.end();

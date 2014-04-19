@@ -1,13 +1,19 @@
 //var mongodb = require('./db');
-var mongoose = require('mongoose');
+var mongoose = require('mongoose-q')(require('mongoose'));
 mongoose.connect('mongodb://localhost/accupass_fb_with_node');
+var Activity = require('./activity');
+var SignUp = require('./sign_up');
+var Bid = require('./bid');
+var _ = require('underscore');
+var Promise = require('promise');
+
 
 var userSchema = new mongoose.Schema({
     name: String,
     password: String,
-    forgot_password_question:String,
-    forgot_password_answer:String,
-    login_type:String
+    forgot_password_question: String,
+    forgot_password_answer: String,
+    login_type: String
 }, {
     collection: 'users'
 });
@@ -35,7 +41,7 @@ User.prototype.save = function (callback) {
 
 User.update = function (user, callback) {
     userModel.update({_id: user._id}, {$set: { password: user.password }}, function (err, user) {
-        if(err){
+        if (err) {
             return callback(err);
         }
         callback(null, user);
@@ -52,11 +58,11 @@ User.get = function (name, callback) {
 };
 
 User.find_all_users = function (login_type, callback) {
-    userModel.find({login_type: login_type},function (err, users) {
+    userModel.find({login_type: login_type}, function (err, users) {
         if (err) {
             return callback(err);
         }
-         callback(null, users);
+        callback(null, users);
     });
 };
 
@@ -118,7 +124,7 @@ User.judge_add_user_input = function (req, res) {
     return 'legal';
 };
 
-User.judge_reset_password_input = function(req,res){
+User.judge_reset_password_input = function (req, res) {
     if (!req.body.password || !req.body.password_confirmation) {
         req.flash('error', '输入不能为空！');
         return res.redirect('/forgot_3');
@@ -129,34 +135,48 @@ User.judge_reset_password_input = function(req,res){
     }
 };
 
-User.delete_user = function (user,callback) {
+User.delete_user = function (user, callback) {
     userModel.remove({_id: user._id}, function (err, user) {
-        if(err){
+        if (err) {
             return callback(err);
         }
         callback(null, user);
     });
 };
 
-User.reconstruct_user_infos = function(req,res){
+User.reconstruct_user_infos = function (req, res) {
     var user = req.session.user;
-    var user_info = {};
-    var user_infos = [];
-    Activity.get(user.name,function(err,activity){
-        if(activity){
-            var activities = activity.activities;
-            for(var i= 0;i<activities.length;i++){
-                user_info.activity_name = activities[i].name;
-                SignUp.count_sign_ups_num(function(sign_ups_num){
-                    user_info.sign_ups_num = sign_ups_num;
-                    Bid.count_bids_num(function(bids_num){
-                        user_info.bids_num = bids_num;
-                        user_infos.push(user_info);
+    return new Promise(function (resolve) {
+        Activity.get(user.name, function (err, activity) {
+            if (activity) {
+                var promises = [];
+                var activities = activity.activities;
+                activities.forEach(function (activity) {
+                    var user_info = {};
+                    user_info.activity_name = activity.name;
+                    var promise = new Promise(function (resolve) {
+                        SignUp.count_sign_ups_num(user.name, activity.name)
+                            .then(function (sign_ups_length) {
+                                user_info.sign_ups_num = sign_ups_length;
+                                return user_info;
+                            })
+                            .done(function (user_info) {
+                                Bid.count_bids_num(user.name, activity.name)
+                                    .then(function (bids_length) {
+                                        user_info.bids_num = bids_length;
+                                        resolve(user_info);
+                                    });
+                            })
                     });
+                    promises.push(promise);
                 });
+                Promise.all(promises)
+                    .then(function (user_infos) {
+                        resolve(user_infos);
+                    });
             }
-        }
-    });
+        });
+    })
 };
 
 module.exports = User;

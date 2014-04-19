@@ -15,9 +15,11 @@ function Activity(user,activities) {
     this.activities = activities;
 }
 
-Activity.prototype.update = function(){
+Activity.prototype.update = function(callback){
     var activity = new activityModel(this) ;
-    activityModel.remove({user:this.user});
+    activityModel.remove({user:this.user},function(err,activity){
+        return callback(null,activity);
+    });
     activity.save(activity);
 };
 
