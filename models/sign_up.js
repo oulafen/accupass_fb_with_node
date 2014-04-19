@@ -15,14 +15,10 @@ function SignUp(user,sign_ups) {
     this.sign_ups = sign_ups;
 }
 
-SignUp.prototype.update = function(callback){
+SignUp.prototype.update = function(){
     var sign_up = new signUpModel(this);
-    signUpModel.remove({user:this.user},function(err,sign_up){
-        callback(null,sign_up);
-    });
-    sign_up.save(sign_up,function(err,sign_up){
-        callback(null,sign_up);
-    });
+    signUpModel.remove({user:this.user});
+    sign_up.save(sign_up);
 };
 
 module.exports = SignUp;

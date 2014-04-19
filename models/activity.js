@@ -16,14 +16,14 @@ function Activity(user,activities) {
     this.activities = activities;
 }
 
-Activity.prototype.update = function(callback){
+Activity.prototype.update = function(){
     var activity = new activityModel(this) ;
-    activityModel.remove({user:this.user},function(err,activity){
-        callback(null,activity);
-    });
-    activity.save(activity,function(err,activity){
-        callback(null,activity);
-    });
+    activityModel.remove({user:this.user});
+    activity.save(activity);
+};
+
+Activity.get = function(){
+
 };
 
 module.exports = Activity;

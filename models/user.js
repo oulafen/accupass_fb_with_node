@@ -138,6 +138,15 @@ User.delete_user = function (user,callback) {
     });
 };
 
+User.reconstruct_user_infos = function(req,res){
+    var user = req.session.user;
+    var user_info = {};
+    var user_infos = [];
+    Activity.get(user,function(){
+
+    });
+};
+
 module.exports = User;
 
 

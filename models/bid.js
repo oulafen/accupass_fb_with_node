@@ -15,14 +15,10 @@ function Bid(user,bids) {
     this.bids = bids;
 }
 
-Bid.prototype.update = function(callback){
+Bid.prototype.update = function(){
     var bid = new bidModel(this);
-    bidModel.remove({user:this.user},function(err,bid){
-        callback(null,bid);
-    });
-    bid.save(bid,function(err,bid){
-        callback(null,bid);
-    });
+    bidModel.remove({user:this.user});
+    bid.save(bid);
 };
 
 module.exports = Bid;

@@ -15,14 +15,10 @@ function BidPeople(user,bid_people) {
     this.bid_people = bid_people ;
 }
 
-BidPeople.prototype.update = function(callback){
+BidPeople.prototype.update = function(){
     var bid_people = new bidPeopleModel(this);
-    bidPeopleModel.remove({user:this.user},function(err,bid_people){
-        callback(null,bid_people);
-    });
-    bid_people.save(bid_people,function(err,bid_people){
-        callback(null,bid_people);
-    });
+    bidPeopleModel.remove({user:this.user});
+    bid_people.save(bid_people);
 };
 
 module.exports = BidPeople;

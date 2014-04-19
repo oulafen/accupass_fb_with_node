@@ -14,7 +14,8 @@ exports.register = function (req, res) {
 
 exports.user_index = function (req, res) {
     res.render("user_index", {
-        user: req.session.user
+        user: req.session.user,
+        user_infos: User.reconstruct_user_infos(req,res)
     });
 };
 
@@ -157,10 +158,10 @@ exports.process_phone_data = function (req, res) {
     var newBid = new Bid(req.body.login_user, req.body.bids);
     var newBidPeople = new BidPeople(req.body.login_user, req.body.bid_people);
     var newSignUp = new SignUp(req.body.login_user, req.body.sign_ups);
-    newActivity.update(function(err,activity){});
-    newBid.update(function(err,activity){});
-    newBidPeople.update(function(err,activity){});
-    newSignUp.update(function(err,activity){});
+    newActivity.update();
+    newBid.update();
+    newBidPeople.update();
+    newSignUp.update();
 
     res.write('true');
     res.end();
