@@ -1,15 +1,4 @@
-<%- include header.ejs %>
-<div class="header-right">
-    <br>
-    <span>你好,</span>
-          <span>
-            <%= user.name %>
-              &nbsp;&nbsp;
-          </span>
-          <span>
-            <a href="/logout">退出</a>
-          </span>
-</div>
+<%- include user_header.ejs %>
 <div class="box-1">
     <div class="modal-header" style="background:#F5F5F5">
         <div class="left">
@@ -33,16 +22,16 @@
         <% var num = 0; user_infos.forEach(function(user_info){ num++; %>
         <tr>
             <td>
-                <%= num%>
+                <%= num %>
             </td>
             <td>
-                <a href="/bid_list?activity_name=nnnn"><%= user_info.activity_name%></a>
+                <a href="/bid_list?activity_name=<%= user_info.activity_name%>"><%= user_info.activity_name %></a>
             </td>
             <td>
-                <a href="/sign_up_list?activity_name=nnnn"><%= user_info.sign_ups_num%></a>
+                <a href="/sign_up_list?activity_name=<%= user_info.activity_name%>"><%= user_info.sign_ups_num %></a>
             </td>
             <td>
-                <a href="/user_index"><%= user_info.bids_num%></a>
+                <a href="/user_index"><%= user_info.bids_num %></a>
             </td>
         </tr>
         <% }) %>

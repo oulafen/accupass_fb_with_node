@@ -30,7 +30,6 @@ function User(user) {
 
 User.prototype.save = function (callback) {
     var newUser = new userModel(this);
-
     newUser.save(function (err, user) {
         if (err) {
             return callback(err);
