@@ -74,6 +74,7 @@ exports.bid_detail = function (req, res) {
     var get_info = querystring.parse(url.parse(req.url).query);
     BidResult.reconstruct_bid_result(req.session.user.name,get_info.activity_name,get_info.bid_name)
         .then(function(bid_result){
+            req.session.bid_result = bid_result;
             res.render("bid_detail", {
                 user: req.session.user,
                 bid_result: bid_result,
@@ -84,10 +85,17 @@ exports.bid_detail = function (req, res) {
 };
 
 exports.price_statistics = function (req, res) {
-    res.render("price_statistics", {
-        user: req.session.user
-    });
-}
+    var bid_result = req.session.bid_result;
+    BidPeople.reconstruct_prices_list(bid_result.user,bid_result.activity_name,bid_result.bid_name)
+        .then(function(prices_list){
+            res.render("price_statistics", {
+                user: req.session.user,
+                prices_list: prices_list,
+                sign_ups_num: querystring.parse(url.parse(req.url).query).sign_ups_num,
+                bid_result: bid_result
+            });
+        })
+};
 
 exports.create_login_session = function (req, res) {
     var is_legal = User.judge_login_input(req, res);

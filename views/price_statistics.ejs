@@ -4,7 +4,7 @@
         <a href="/user_index">首页</a>
         <span>
           &nbsp;/&nbsp;
-          <a href="/bid_list?activity_name=nnnn">竞价列表</a>
+          <a href="/bid_list?activity_name=<%= bid_result.activity_name%>&sign_ups_num=<%= sign_ups_num %>">竞价列表</a>
         </span>
         <span>
           &nbsp;/&nbsp;
@@ -15,28 +15,36 @@
 <div class="box-2">
     <div class="modal-header" style="background:#F5F5F5">
         <br>
+        <% if(bid_result.status == 'ongoing'){ %>
         <div class="h4-2">
-            <p>
-                获胜者：
-                ioio
-            </p>
-            <p>
-                出价：
-                89
-                元
-            </p>
-            <p>
-                手机号：
-                1817178312
-            </p>
+            活动正在进行...
         </div>
+        <% } %>
+
+        <% if(bid_result.status == 'fail'){ %>
+        <div class="h4-2">
+            本次竞价无人胜出
+        </div>
+        <% } %>
+
+        <% if(bid_result.status == 'success'){ %>
+        <div class="h4-2">
+            <p> 获胜者：<%= bid_result.name %> </p>
+
+            <p> 出价：<%= bid_result.price %>元 </p>
+
+            <p> 手机号：<%= bid_result.phone %> </p>
+        </div>
+        <% } %>
         <br>
     </div>
     <table class="table table-striped">
         <thead>
         <tr>
             <td class="bolder-3">
-                <a href="/bid_detail?present_bid_name=%E7%AB%9E%E4%BB%B72">出价列表</a>
+                <a href="/bid_detail?activity_name=<%= bid_result.activity_name%>&bid_name=<%= bid_result.bid_name%>&sign_ups_num=<%= sign_ups_num%>">
+                    出价列表
+                </a>
             </td>
             <td class="bolder-4">
                 价格统计
@@ -52,14 +60,16 @@
         </tr>
         </thead>
         <tbody>
+        <% prices_list.forEach(function(price_list){%>
         <tr>
             <td>
-                89
+                <%= price_list.price%>
             </td>
             <td>
-                1
+                <%= price_list.num%>
             </td>
         </tr>
+        <% })%>
         </tbody>
     </table>
     <div class="modal-footer"></div>

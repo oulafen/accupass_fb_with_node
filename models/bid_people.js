@@ -53,5 +53,25 @@ BidPeople.get = function(user_name,activity_name,bid_name){
     })
 };
 
+BidPeople.reconstruct_prices_list = function(user_name,activity_name,bid_name){
+    return new Promise(function(resolve){
+        BidPeople.get(user_name,activity_name,bid_name)
+            .then(function(bid_people){
+                var prices_list=[];
+                    bid_people.forEach(function(bid_person){
+                        var price_list = {};
+                        if(!_.find(prices_list,function(price_l){return price_l.price == price_list.price;})){
+                            price_list.price = bid_person.price;
+                            price_list.num = _.filter(bid_people,function(bid_p){
+                                return bid_p.price == bid_person.price;
+                            }).length;
+                            prices_list.push(price_list);
+                        }
+                    });
+                resolve(prices_list);
+            });
+    })
+};
+
 module.exports = BidPeople;
 
