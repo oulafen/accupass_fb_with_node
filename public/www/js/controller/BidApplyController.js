@@ -42,6 +42,7 @@ function BidApplyController($scope, $navigate) {
             Bid.update_bids($scope.present_bid);
             SignUp.update_sign_up_activities($scope.present_activity);
             Bid.save_present_bid_name($scope.present_bid.bid_name);
+            Bid.save_bid_result();
         }
     }
 

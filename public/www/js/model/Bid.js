@@ -127,19 +127,28 @@ Bid.save_bid_result = function () {
     var bid_result = Bid.init_bid_result();
     var bid_results = JSON.parse(localStorage.getItem('bid_results')) || [];
     var is_find = _.find(bid_results, function (result) {
-        return result.activity_name == bid_result.activity_name
+        return result.user==localStorage.user && result.activity_name == bid_result.activity_name
             && result.bid_name == bid_result.bid_name;
     });
     if (is_find == undefined) {
         bid_results.push(bid_result);
-        localStorage.setItem('bid_results', JSON.stringify(bid_results));
+    }else{
+        _.map(bid_results,function(result){
+            if(result.user==localStorage.user && result.activity_name == bid_result.activity_name
+                && result.bid_name == bid_result.bid_name){
+                result = bid_result;
+            }
+            return result;
+        })
     }
+    localStorage.setItem('bid_results', JSON.stringify(bid_results));
 }
 
 Bid.init_bid_result = function () {
     var winner = Bid.get_bid_winner();
+    var bid_status = Bid.get_present_bid().bid_status=='yellow';
     var bid_result = {};
-    bid_result.status = 'fail';
+    bid_result.status = bid_status ? 'ongoing' : 'fail';
     bid_result.user = localStorage.user;
     bid_result.activity_name = localStorage.getItem('present_activity_name');
     bid_result.bid_name = localStorage.getItem('present_bid_name');
