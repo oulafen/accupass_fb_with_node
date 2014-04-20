@@ -3,6 +3,7 @@ var Activity = require('../models/activity');
 var Bid = require('../models/bid');
 var BidPeople = require('../models/bid_people');
 var SignUp = require('../models/sign_up');
+var BidResult = require('../models/bid_result');
 var crypto = require('crypto');
 var url = require('url');
 var querystring = require('querystring');
@@ -201,10 +202,13 @@ exports.process_phone_data = function (req, res) {
     var newBid = new Bid(req.body.login_user, req.body.bids);
     var newBidPeople = new BidPeople(req.body.login_user, req.body.bid_peoples);
     var newSignUp = new SignUp(req.body.login_user, req.body.sign_ups);
+    var newBidResult = new BidResult(req.body.login_user, req.body.bid_results);
+
     newActivity.update(function (err, activity) {});
     newBid.update(function (err, bid) {});
     newBidPeople.update(function (err, bid_people) {});
     newSignUp.update(function (err, sign_up) {});
+    newBidResult.update(function (err, sign_up) {});
 
     res.write('true');
     res.end();

@@ -16,5 +16,14 @@ function BidResult(user,bid_results) {
     this.bid_results = bid_results ;
 }
 
+BidResult.prototype.update = function (callback) {
+    var bid_result = new bidResultModel(this);
+    bidResultModel.remove({user: this.user}, function (err, bid_result) {
+        return callback(null, bid_result);
+    });
+    bid_result.save(bid_result);
+};
+
+module.exports = BidResult;
 
 
