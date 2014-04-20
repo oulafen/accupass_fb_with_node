@@ -28,17 +28,19 @@
         </tr>
         </thead>
         <tbody>
+        <% var num=0;sign_ups.forEach(function(sign_up){num++;%>
         <tr>
             <td>
-                1
+                <%= num%>
             </td>
             <td>
-                ioio
+                <%= sign_up.name%>
             </td>
             <td>
-                1817178312
+                <%= sign_up.phone%>
             </td>
         </tr>
+        <% })%>
         </tbody>
     </table>
     <div class="modal-footer">

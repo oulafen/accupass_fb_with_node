@@ -43,32 +43,38 @@ exports.forgot_3 = function (req, res) {
     });
 };
 
-exports.bid_list = function(req,res){
-    var get_info =querystring.parse(url.parse(req.url).query);
-    Bid.reconstruct_bid_list_infos(req.session.user.name,get_info.activity_name)
-        .then(function(bid_list_infos){
-            res.render("bid_list",{
+exports.bid_list = function (req, res) {
+    var get_info = querystring.parse(url.parse(req.url).query);
+    Bid.reconstruct_bid_list_infos(req.session.user.name, get_info.activity_name)
+        .then(function (bid_list_infos) {
+            res.render("bid_list", {
                 user: req.session.user,
                 bid_list_infos: bid_list_infos,
-                sign_ups_num:get_info.sign_ups_num
+                sign_ups_num: get_info.sign_ups_num,
+                activity_name: get_info.activity_name
             });
         })
 };
 
-exports.sign_up_list = function(req,res){
-    res.render("sign_up_list",{
+exports.sign_up_list = function (req, res) {
+    var activity_name = querystring.parse(url.parse(req.url).query).activity_name;
+    SignUp.get_sign_up_list(req.session.user.name,activity_name)
+        .then(function(sign_ups){
+            res.render("sign_up_list", {
+                user: req.session.user,
+                sign_ups:sign_ups
+            });
+        })
+};
+
+exports.bid_detail = function (req, res) {
+    res.render("bid_detail", {
         user: req.session.user
     });
 };
 
-exports.bid_detail = function(req,res){
-    res.render("bid_detail",{
-        user: req.session.user
-    });
-};
-
-exports.price_statistics = function(req,res){
-    res.render("price_statistics",{
+exports.price_statistics = function (req, res) {
+    res.render("price_statistics", {
         user: req.session.user
     });
 }
@@ -157,7 +163,7 @@ exports.judge_answer = function (req, res) {
 };
 
 exports.reset_password = function (req, res) {
-    User.judge_reset_password_input(req,res);
+    User.judge_reset_password_input(req, res);
     var user = req.session.user_of_forgot_password;
     var md5 = crypto.createHash('md5'),
         password = md5.update(req.body.password).digest('hex');
@@ -193,10 +199,10 @@ exports.process_phone_data = function (req, res) {
     var newBid = new Bid(req.body.login_user, req.body.bids);
     var newBidPeople = new BidPeople(req.body.login_user, req.body.bid_peoples);
     var newSignUp = new SignUp(req.body.login_user, req.body.sign_ups);
-    newActivity.update(function(err,activity){});
-    newBid.update(function(err,bid){});
-    newBidPeople.update(function(err,bid_people){});
-    newSignUp.update(function(err,sign_up){});
+    newActivity.update(function (err, activity) {});
+    newBid.update(function (err, bid) {});
+    newBidPeople.update(function (err, bid_people) {});
+    newSignUp.update(function (err, sign_up) {});
 
     res.write('true');
     res.end();

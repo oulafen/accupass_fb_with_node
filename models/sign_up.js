@@ -40,5 +40,19 @@ SignUp.count_sign_ups_num = function (user_name, activity_name) {
     });
 };
 
+SignUp.get_sign_up_list = function(user_name,activity_name){
+    return new Promise(function(resolve){
+        signUpModel.find({user: user_name}).execQ()
+            .then(function(sign_up){
+                return _.filter(sign_up[0].sign_ups, function (sign_up) {
+                    return sign_up.activity_name == activity_name
+                });
+            })
+            .done(function(sign_ups){
+                resolve(sign_ups);
+            })
+    })
+};
+
 module.exports = SignUp;
 
