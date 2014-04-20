@@ -57,12 +57,14 @@ exports.bid_list = function (req, res) {
 };
 
 exports.sign_up_list = function (req, res) {
-    var activity_name = querystring.parse(url.parse(req.url).query).activity_name;
-    SignUp.get_sign_up_list(req.session.user.name,activity_name)
+    var get_info = querystring.parse(url.parse(req.url).query);
+    SignUp.get_sign_up_list(req.session.user.name,get_info.activity_name)
         .then(function(sign_ups){
             res.render("sign_up_list", {
                 user: req.session.user,
-                sign_ups:sign_ups
+                sign_ups: sign_ups,
+                sign_ups_num: get_info.sign_ups_num,
+                activity_name: get_info.activity_name
             });
         })
 };
