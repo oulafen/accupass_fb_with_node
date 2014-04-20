@@ -97,6 +97,10 @@ exports.price_statistics = function (req, res) {
         })
 };
 
+exports.syn_show = function(req,res){
+    res.render('syn_show');
+};
+
 exports.create_login_session = function (req, res) {
     var is_legal = User.judge_login_input(req, res);
     var md5 = crypto.createHash('md5'),
