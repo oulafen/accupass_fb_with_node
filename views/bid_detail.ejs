@@ -16,11 +16,22 @@
 <div class="box-2">
     <div class="modal-header" style="background:#F5F5F5">
         <br>
+        <% if(bid_result.status=='fail'){%>
         <div class="h4-2">
             本次竞价无人胜出
         </div>
+        <% }%>
+
+        <% if(bid_result.status=='success'){%>
+        <div class="h4-2">
+            <p> 获胜者：<%= bid_result.name%> </p>
+            <p> 出价：<%= bid_result.price%>元 </p>
+            <p> 手机号：<%= bid_result.phone%> </p>
+        </div>
+        <% }%>
         <br>
     </div>
+
     <table class="table table-striped">
         <thead>
         <tr>
@@ -47,6 +58,22 @@
         </tr>
         </thead>
         <tbody>
+        <% var num=0;bid_result.bid_people.forEach(function(bid_person){num++;%>
+        <tr>
+            <td>
+                <%= num%>
+            </td>
+            <td>
+                <%= bid_person.name%>
+            </td>
+            <td>
+                <%= bid_person.price%>
+            </td>
+            <td>
+                <%= bid_person.phone%>
+            </td>
+        </tr>
+        <% })%>
         </tbody>
     </table>
     <div class="modal-footer"></div>

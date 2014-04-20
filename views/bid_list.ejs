@@ -15,7 +15,7 @@
             竞价列表
         </div>
         <div class="right">
-            <a href="/sign_up_list?activity_name=<%= activity_name%>&sign_ups_num=<%= sign_ups_num%>">报名列表</a>
+            <a href="/sign_up_list?activity_name=<%= activity_name %>&sign_ups_num=<%= sign_ups_num %>">报名列表</a>
         </div>
         <br>
     </div>
@@ -28,21 +28,23 @@
         </tr>
         </thead>
         <tbody>
-        <% var num=0;bid_list_infos.forEach(function(bid_list_info){num++%>
+        <% var num = 0;bid_list_infos.forEach(function(bid_list_info){num++ %>
         <tr>
             <td>
-                <%= num%>
+                <%= num %>
             </td>
             <td>
-                <a href="/bid_detail?present_bid_name=%E7%AB%9E%E4%BB%B71"><%= bid_list_info.bid_name%></a>
+                <a href="/bid_detail?activity_name=<%= activity_name %>&bid_name=<%= bid_list_info.bid_name %>&sign_ups_num=<%= sign_ups_num %>">
+                    <%= bid_list_info.bid_name %>
+                </a>
             </td>
             <td>
-                <%= bid_list_info.bid_apply_num%>
+                <%= bid_list_info.bid_apply_num %>
                 /
-                <%= sign_ups_num%>
+                <%= sign_ups_num %>
             </td>
         </tr>
-        <% })%>
+        <% }) %>
         </tbody>
     </table>
     <div class="modal-footer"></div>

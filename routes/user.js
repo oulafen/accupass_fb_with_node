@@ -71,9 +71,16 @@ exports.sign_up_list = function (req, res) {
 };
 
 exports.bid_detail = function (req, res) {
-    res.render("bid_detail", {
-        user: req.session.user
-    });
+    var get_info = querystring.parse(url.parse(req.url).query);
+    BidResult.reconstruct_bid_result(req.session.user.name,get_info.activity_name,get_info.bid_name)
+        .then(function(bid_result){
+            res.render("bid_detail", {
+                user: req.session.user,
+                bid_result: bid_result,
+                sign_ups_num: get_info.sign_ups_num,
+                activity_name: get_info.activity_name
+            });
+        })
 };
 
 exports.price_statistics = function (req, res) {

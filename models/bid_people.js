@@ -39,5 +39,19 @@ BidPeople.count_bid_apply_num = function(user_name,activity_name,bid_name){
     })
 };
 
+BidPeople.get = function(user_name,activity_name,bid_name){
+    return new Promise(function(resolve){
+        bidPeopleModel.find({user:user_name}).execQ()
+            .then(function(bid_people){
+                return _.filter(bid_people[0].bid_people,function(bid_person){
+                    return bid_person.activity_name == activity_name && bid_person.bid_name == bid_name;
+                });
+            })
+            .done(function(bid_people){
+                resolve(bid_people);
+            })
+    })
+};
+
 module.exports = BidPeople;
 
