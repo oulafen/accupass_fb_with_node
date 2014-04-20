@@ -4,6 +4,8 @@ var Bid = require('../models/bid');
 var BidPeople = require('../models/bid_people');
 var SignUp = require('../models/sign_up');
 var crypto = require('crypto');
+var url = require('url');
+var querystring = require('querystring');
 
 
 exports.register = function (req, res) {
@@ -42,9 +44,15 @@ exports.forgot_3 = function (req, res) {
 };
 
 exports.bid_list = function(req,res){
-  res.render("bid_list",{
-      user: req.session.user
-  });
+    var get_info =querystring.parse(url.parse(req.url).query);
+    Bid.reconstruct_bid_list_infos(req.session.user.name,get_info.activity_name)
+        .then(function(bid_list_infos){
+            res.render("bid_list",{
+                user: req.session.user,
+                bid_list_infos: bid_list_infos,
+                sign_ups_num:get_info.sign_ups_num
+            });
+        })
 };
 
 exports.sign_up_list = function(req,res){
@@ -183,7 +191,7 @@ exports.process_phone_login = function (req, res) {
 exports.process_phone_data = function (req, res) {
     var newActivity = new Activity(req.body.login_user, req.body.activities);
     var newBid = new Bid(req.body.login_user, req.body.bids);
-    var newBidPeople = new BidPeople(req.body.login_user, req.body.bid_people);
+    var newBidPeople = new BidPeople(req.body.login_user, req.body.bid_peoples);
     var newSignUp = new SignUp(req.body.login_user, req.body.sign_ups);
     newActivity.update(function(err,activity){});
     newBid.update(function(err,bid){});

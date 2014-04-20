@@ -25,10 +25,14 @@
                 <%= num %>
             </td>
             <td>
-                <a href="/bid_list?activity_name=<%= user_info.activity_name%>"><%= user_info.activity_name %></a>
+                <a href="/bid_list?activity_name=<%= user_info.activity_name%>&sign_ups_num=<%= user_info.sign_ups_num%>">
+                    <%= user_info.activity_name %>
+                </a>
             </td>
             <td>
-                <a href="/sign_up_list?activity_name=<%= user_info.activity_name%>"><%= user_info.sign_ups_num %></a>
+                <a href="/sign_up_list?activity_name=<%= user_info.activity_name%>">
+                    <%= user_info.sign_ups_num %>
+                </a>
             </td>
             <td>
                 <a href="/user_index"><%= user_info.bids_num %></a>

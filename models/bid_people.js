@@ -1,5 +1,7 @@
 //var mongodb = require('./db');
 var mongoose = require('mongoose');
+var Promise = require('promise');
+var _ = require('underscore');
 
 var bidPeopleSchema = new mongoose.Schema({
     user: String,
@@ -21,6 +23,20 @@ BidPeople.prototype.update = function(callback){
         return callback(null,bid_people);
     });
     bid_people.save(bid_people);
+};
+
+BidPeople.count_bid_apply_num = function(user_name,activity_name,bid_name){
+    return new Promise(function(resolve){
+        bidPeopleModel.find({user:user_name}).execQ()
+            .then(function(bid_people){
+                return _.filter(bid_people[0].bid_people,function(bid_person){
+                    return bid_person.bid_name == bid_name && bid_person.activity_name == activity_name;
+                }).length;
+            })
+            .done(function(bid_apply_num){
+                resolve(bid_apply_num);
+            })
+    })
 };
 
 module.exports = BidPeople;

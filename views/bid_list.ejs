@@ -28,19 +28,21 @@
         </tr>
         </thead>
         <tbody>
+        <% var num=0;bid_list_infos.forEach(function(bid_list_info){num++%>
         <tr>
             <td>
-                1
+                <%= num%>
             </td>
             <td>
-                <a href="/bid_detail?present_bid_name=%E7%AB%9E%E4%BB%B71">竞价1</a>
+                <a href="/bid_detail?present_bid_name=%E7%AB%9E%E4%BB%B71"><%= bid_list_info.bid_name%></a>
             </td>
             <td>
-                0
+                <%= bid_list_info.bid_apply_num%>
                 /
-                1
+                <%= sign_ups_num%>
             </td>
         </tr>
+        <% })%>
         </tbody>
     </table>
     <div class="modal-footer"></div>
