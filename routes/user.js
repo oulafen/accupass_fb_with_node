@@ -17,15 +17,19 @@ exports.register = function (req, res) {
 };
 
 exports.user_index = function (req, res) {
-    User.reconstruct_user_infos(req, res)
-        .then(function (user_infos) {
-            var newBidWinner = new BidWinner(req.session.user.name, ['un_get']);
-            newBidWinner.update(function (err, bid_winner) {});
-            res.render("user_index", {
-                user: req.session.user,
-                user_infos: user_infos
-            });
-        })
+    if(req.session.user){
+        User.reconstruct_user_infos(req, res)
+            .then(function (user_infos) {
+                var newBidWinner = new BidWinner(req.session.user.name, ['un_get']);
+                newBidWinner.update(function (err, bid_winner) {});
+                res.render("user_index", {
+                    user: req.session.user,
+                    user_infos: user_infos
+                });
+            })
+    }else{
+        res.redirect('/')
+    }
 };
 
 exports.forgot_1 = function (req, res) {
@@ -48,7 +52,8 @@ exports.forgot_3 = function (req, res) {
 };
 
 exports.bid_list = function (req, res) {
-    var get_info = querystring.parse(url.parse(req.url).query);
+    if(req.session.user){
+        var get_info = querystring.parse(url.parse(req.url).query);
     Bid.reconstruct_bid_list_infos(req.session.user.name, get_info.activity_name)
         .then(function (bid_list_infos) {
             res.render("bid_list", {
@@ -58,10 +63,14 @@ exports.bid_list = function (req, res) {
                 activity_name: get_info.activity_name
             });
         })
+    }else{
+        res.redirect('/')
+    }
 };
 
 exports.sign_up_list = function (req, res) {
-    var get_info = querystring.parse(url.parse(req.url).query);
+    if(req.session.user){
+        var get_info = querystring.parse(url.parse(req.url).query);
     SignUp.get_sign_up_list(req.session.user.name,get_info.activity_name)
         .then(function(sign_ups){
             res.render("sign_up_list", {
@@ -71,10 +80,14 @@ exports.sign_up_list = function (req, res) {
                 activity_name: get_info.activity_name
             });
         })
+    }else{
+        res.redirect('/')
+    }
 };
 
 exports.bid_detail = function (req, res) {
-    var get_info = querystring.parse(url.parse(req.url).query);
+    if(req.session.user){
+        var get_info = querystring.parse(url.parse(req.url).query);
     BidResult.reconstruct_bid_result(req.session.user.name,get_info.activity_name,get_info.bid_name)
         .then(function(bid_result){
             req.session.bid_result = bid_result;
@@ -85,10 +98,14 @@ exports.bid_detail = function (req, res) {
                 activity_name: get_info.activity_name
             });
         })
+    }else{
+        res.redirect('/')
+    }
 };
 
 exports.price_statistics = function (req, res) {
-    var bid_result = req.session.bid_result;
+    if(req.session.user){
+        var bid_result = req.session.bid_result;
     BidPeople.reconstruct_prices_list(bid_result.user,bid_result.activity_name,bid_result.bid_name)
         .then(function(prices_list){
             res.render("price_statistics", {
@@ -98,6 +115,9 @@ exports.price_statistics = function (req, res) {
                 bid_result: bid_result
             });
         })
+    }else{
+        res.redirect('/')
+    }
 };
 
 exports.syn_show = function(req,res){
@@ -134,11 +154,12 @@ exports.create_login_session = function (req, res) {
                 req.flash('error', '输入密码不正确!');
                 return res.redirect('/');
             }
-            req.session.user = user;
             if (user.login_type == 'user') {
+                req.session.user = user;
                 res.redirect('/user_index');
             }
             if (user.login_type == 'admin') {
+                req.session.admin = user;
                 User.find_all_users('user', function (err, users) {
                     if (users) {
                         req.session.users = users;

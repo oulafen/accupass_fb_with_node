@@ -7,32 +7,45 @@ var crypto = require('crypto');
 
 
 exports.admin_index = function (req, res) {
-    req.session.change_success = '';
-    var paginator = pagination.create('search',{prelink:'/admin_index', current: 1, rowsPerPage: 10,
-        totalResult: 10020});
-    res.render("admin_index", {
-        users: req.session.users,
-        delete_user: req.session.delete_user,
-        delete_user_name: req.session.delete_user_name,
-        paginator: paginator.render()
-    });
+    if(req.session.admin){
+        req.session.change_success = '';
+        var paginator = pagination.create('search',{prelink:'/admin_index', current: 1, rowsPerPage: 10,
+            totalResult: 10020});
+        res.render("admin_index", {
+            users: req.session.users,
+            delete_user: req.session.delete_user,
+            delete_user_name: req.session.delete_user_name,
+            paginator: paginator.render()
+        });
+    }else{
+        res.redirect('/')
+    }
 };
 
 exports.change_password = function(req,res){
+    if(req.session.admin){
     res.render("change_password",{
         change_success: req.session.change_success,
         error: req.flash('error').toString(),
         name:  req.session.user_name
     })
+    }else{
+        res.redirect('/')
+    }
 };
 
 exports.add_user = function(req,res){
+    if(req.session.admin){
     res.render('add_user',{
         error: req.flash('error').toString()
     });
+    }else{
+        res.redirect('/')
+    }
 };
 
 exports.update_password = function(req,res){
+    if(req.session.admin){
     var name = req.session.user_name;
     var is_input = User.judge_change_password_input(req,res);
     var md5 = crypto.createHash('md5'),
@@ -49,6 +62,9 @@ exports.update_password = function(req,res){
                 });
             }
         })
+    }
+    }else{
+        res.redirect('/')
     }
 };
 
@@ -75,6 +91,7 @@ exports.create_admin_session = function(req,res){
 };
 
 exports.create_new_user = function(req,res){
+    if(req.session.admin){
     var is_legal = User.judge_add_user_input(req,res) == 'legal';
     var md5 = crypto.createHash('md5'),
         password = md5.update(req.body.password).digest('hex');
@@ -98,9 +115,13 @@ exports.create_new_user = function(req,res){
             });
         });
     }
+    }else{
+        res.redirect('/')
+    }
 };
 
 exports.delete_user = function(req,res){
+    if(req.session.admin){
     req.session.delete_user = '';
     User.get(req.session.delete_user_name,function(err,user){
             if(user){
@@ -117,14 +138,7 @@ exports.delete_user = function(req,res){
             }
         });
     req.session.delete_user_name = '';
+    }else{
+        res.redirect('/')
+    }
 };
-
-//function change_success_show(){
-//    var $ = require("jquery");
-//    $(document).ready(function(){
-//        $('#change_success').show(400)
-//    });
-//    $('#close').click(function(){
-//        $('#change_success').hide(400)
-//    });
-//}
