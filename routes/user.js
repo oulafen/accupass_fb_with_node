@@ -4,6 +4,7 @@ var Bid = require('../models/bid');
 var BidPeople = require('../models/bid_people');
 var SignUp = require('../models/sign_up');
 var BidResult = require('../models/bid_result');
+var BidWinner = require('../models/bid_winner');
 var crypto = require('crypto');
 var url = require('url');
 var querystring = require('querystring');
@@ -98,7 +99,10 @@ exports.price_statistics = function (req, res) {
 };
 
 exports.syn_show = function(req,res){
-    res.render('syn_show');
+    res.render('syn_show',{
+        syn_show_winner_data:req.session.syn_show_winner_data
+    });
+
 };
 
 exports.create_login_session = function (req, res) {
@@ -229,6 +233,15 @@ exports.process_phone_data = function (req, res) {
     newSignUp.update(function (err, sign_up) {});
     newBidResult.update(function (err, sign_up) {});
 
+    res.write('true');
+    res.end();
+};
+
+exports.process_syn_show_winner_data = function(req,res){
+    if(req.body.user == req.session.user.name){
+        var newBidWinner = new BidWinner(req.session.user.name,req.body.bid_winner);
+        newBidWinner.update(function (err, bid_winner) {});
+    }
     res.write('true');
     res.end();
 };

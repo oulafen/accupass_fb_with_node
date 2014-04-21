@@ -80,6 +80,7 @@ app.post('/create_login_session',user.create_login_session);
 app.post('/user_register',user.process_register_info);
 app.post('/process_phone_login',user.process_phone_login);
 app.post('/process_phone_data',user.process_phone_data);
+app.post('/process_syn_show_winner_data',user.process_syn_show_winner_data);
 
 
 http.createServer(app).listen(app.get('port'), function(){

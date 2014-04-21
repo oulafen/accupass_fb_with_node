@@ -187,9 +187,10 @@ Bid.get_bid_result_of_present_user = function () {
 }
 
 Bid.post_show_winner = function ($http) {
-    var post_data = {bid_winner: Bid.get_bid_winner()};
+    var post_data = {user:localStorage.user,bid_winner: [Bid.get_bid_winner()]};
     Bid.synchronous_show();
-    $http.post('/show_winner_data', post_data);
+    console.log(post_data)
+    $http.post('/process_syn_show_winner_data', post_data);
 }
 
 Bid.synchronous_show = function () {
