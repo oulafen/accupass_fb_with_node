@@ -29,10 +29,15 @@ SignUp.count_sign_ups_num = function (user_name, activity_name) {
     return new Promise(function (resolve) {
         signUpModel.find({user: user_name}).execQ()
             .then(function (sign_up) {
-                var sign_ups = _.filter(sign_up[0].sign_ups, function (sign_up) {
-                    return sign_up.activity_name == activity_name
-                });
-                return  sign_ups.length;
+                if(sign_up[0]){
+                    var sign_ups = _.filter(sign_up[0].sign_ups, function (sign_up) {
+                        return sign_up.activity_name == activity_name
+                    });
+                    return  sign_ups.length;
+                }
+                if(!sign_up[0]){
+                    return 0;
+                }
             })
             .done(function (sign_ups_length) {
                 resolve(sign_ups_length)
