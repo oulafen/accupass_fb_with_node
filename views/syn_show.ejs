@@ -55,11 +55,8 @@
                 <% }%>
                 <% if(bid_winner!='un_get' && bid_winner!='fail'){%>
                 <div class="h4-2">
-                    <p style="font-size:30px">
-                        <%= bid_winner.activity_name%>
-                    </p>
                     <br>
-                    <p style="font-size:25px">
+                    <p style="font-size:30px">
                         竞价结果：&nbsp;
                         <%= bid_winner.name%>&nbsp;￥<%= bid_winner.price%>&nbsp;<%= bid_winner.phone%>
                         &nbsp;竞价成功！
@@ -70,4 +67,7 @@
             <% }%>
         </div>
     </div>
+<script>
+    setTimeout("$('#show_area').load('syn_show/#show')",20)
+</script>
 <%- include footer.ejs%>
