@@ -6,7 +6,7 @@ var SignUp = require('./sign_up');
 var Bid = require('./bid');
 var _ = require('underscore');
 var Promise = require('promise');
-
+var crypto = require('crypto');
 
 var userSchema = new mongoose.Schema({
     name: String,
@@ -173,9 +173,16 @@ User.reconstruct_user_infos = function (req, res) {
                     .then(function (user_infos) {
                         resolve(user_infos);
                     });
+            }else{
+                resolve([]);
             }
         });
     })
+};
+
+User.crypto_password = function(password){
+    var md5 = crypto.createHash('md5');
+    return  md5.update(password).digest('hex');
 };
 
 module.exports = User;
