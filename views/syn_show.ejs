@@ -1,17 +1,18 @@
 <%- include header.ejs%>
     <div id="show_area">
         <div class="box-1" id="show">
+            <% if (syn_show_info.activity_status=='yellow'){%>
             <div class="modal-header" style="background:#F5F5F5 ">
                 <br>
                 <div class="h4-2">
                     <p style="font-size:30px">
-                        p
+                        <%= syn_show_info.activity_name%>
                     </p>
                     <p style="font-size:20px">
                         参与人数
-                        1
+                        <%= syn_show_info.bid_people.length%>
                         /
-                        3
+                        <%= syn_show_info.sign_ups_num%>
                     </p>
                 </div>
             </div>
@@ -27,21 +28,46 @@
                 </tr>
                 </thead>
                 <tbody>
+                <% syn_show_info.bid_people.forEach(function(bid_person){%>
                 <tr>
                     <td>
-                        ii
+                        <%= bid_person.name%>
                     </td>
                     <td>
-                        181717833
+                        <%= bid_person.phone%>
                     </td>
                 </tr>
+                <% })%>
                 </tbody>
             </table>
             <div class="modal-footer">
-
             </div>
+            <% } %>
+            <% if(syn_show_info.activity_status=='dis_ongoing'){%>
+            <div class="modal-header" style="background:#F5F5F5 ">
+                <br>
+                <% if(bid_winner=='fail'){%>
+                <div class="h4-2">
+                    <p style="font-size:30px">
+                        竞价失败！
+                    </p>
+                </div>
+                <% }%>
+                <% if(bid_winner!='un_get' && bid_winner!='fail'){%>
+                <div class="h4-2">
+                    <p style="font-size:30px">
+                        <%= bid_winner.activity_name%>
+                    </p>
+                    <br>
+                    <p style="font-size:25px">
+                        竞价结果：&nbsp;
+                        <%= bid_winner.name%>&nbsp;￥<%= bid_winner.price%>&nbsp;<%= bid_winner.phone%>
+                        &nbsp;竞价成功！
+                    </p>
+                </div>
+                <% }%>
+            </div>
+            <% }%>
         </div>
     </div>
-
-
 <%- include footer.ejs%>

@@ -19,6 +19,8 @@ exports.register = function (req, res) {
 exports.user_index = function (req, res) {
     User.reconstruct_user_infos(req, res)
         .then(function (user_infos) {
+            var newBidWinner = new BidWinner(req.session.user.name, ['un_get']);
+            newBidWinner.update(function (err, bid_winner) {});
             res.render("user_index", {
                 user: req.session.user,
                 user_infos: user_infos
@@ -99,10 +101,23 @@ exports.price_statistics = function (req, res) {
 };
 
 exports.syn_show = function(req,res){
-    res.render('syn_show',{
-        syn_show_winner_data:req.session.syn_show_winner_data
-    });
-
+    Activity.reconstruct_syn_show_info(req.session.user)
+        .then(function(syn_show_info){
+            SignUp.count_sign_ups_num(req.session.user.name,syn_show_info.activity_name)
+                .then(function(sign_ups_num){
+                    syn_show_info.sign_ups_num = sign_ups_num;
+                    return syn_show_info;
+                })
+                .done(function(syn_show_info){
+                    BidWinner.get(req.session.user.name)
+                        .then(function(bid_winner){
+                            res.render('syn_show',{
+                                syn_show_info:syn_show_info,
+                                bid_winner:bid_winner[0].bid_winner[0]
+                            });
+                        })
+                })
+        })
 };
 
 exports.create_login_session = function (req, res) {

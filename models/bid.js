@@ -72,4 +72,19 @@ Bid.reconstruct_bid_list_infos = function(user_name,activity_name){
     });
 };
 
+Bid.get_ongoing_bid = function(user, activity_name){
+    return new Promise(function(resolve){
+        bidModel.find({user:user}).execQ()
+            .then(function(bid){
+                var ongoing_bid = _.find(bid[0].bids,function(bid){
+                    return bid.activity_name == activity_name && bid.bid_status == 'yellow';
+                });
+                if(ongoing_bid==undefined){
+                    ongoing_bid = 'null';
+                }
+                resolve(ongoing_bid);
+            })
+    })
+};
+
 module.exports = Bid;
