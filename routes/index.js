@@ -6,6 +6,9 @@ exports.login = function(req, res){
 };
 
 exports.logout = function(req, res){
+    req.session.bid_result = null;
+    req.session.user_of_forgot_password = null;
+    req.session.admin = null;
     req.session.delete_user = null;
     req.session.delete_user_name = null;
     req.session.users = null;
